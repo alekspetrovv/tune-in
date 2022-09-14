@@ -1,0 +1,10 @@
+version: '3'
+services:
+  blog-service:
+    build: services/blog-service
+    ports:
+      - "9090:8080"
+  user-service:
+    build: services/user-service
+    ports:
+      - "9091:8080"
