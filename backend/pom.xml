@@ -9,13 +9,20 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>blog-service</artifactId>
+    <artifactId>tune-in</artifactId>
     <version>1.0</version>
-    <name>blog-service</name>
-    <description>blog-service</description>
+    <name>tune-in</name>
+    <packaging>pom</packaging>
+    <!-- modules -->
+    <modules>
+        <module>./services/blog-service</module>
+        <module>./services/user-service</module>
+    </modules>
+
     <properties>
         <java.version>11</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -31,31 +38,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>com.example</groupId>
-            <artifactId>user-service</artifactId>
-            <version>1.0</version>
-        </dependency>
-
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
-        <finalName>blog-service</finalName>
-    </build>
 
 </project>
