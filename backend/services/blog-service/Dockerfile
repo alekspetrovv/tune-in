@@ -1,4 +1,18 @@
-FROM amazoncorretto:11-alpine-jdk
-COPY target/blog-service.jar blog-service.jar
-ENTRYPOINT ["java","-jar","/blog-service.jar"]
+FROM adoptopenjdk:11-jre-hotspot as builder
+ARG JAR_FILE=target/blog-service.jar
+COPY ${JAR_FILE}  blog-service.jar
+RUN java -Djarmode=layertools -jar blog-service.jar extract
+
+FROM adoptopenjdk:11-jre-hotspot
+
+RUN useradd -ms /bin/bash spring
+USER spring
+WORKDIR /usr/app/
+
+COPY --from=builder dependencies/ ./
+COPY --from=builder snapshot-dependencies/ ./
+COPY --from=builder spring-boot-loader/ ./
+COPY --from=builder application/ ./
+
+ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
 

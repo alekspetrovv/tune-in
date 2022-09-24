@@ -3,8 +3,8 @@ services:
   blog-service:
     build: services/blog-service
     ports:
-      - "9090:8080"
+      - "8085:8085"
   user-service:
     build: services/user-service
     ports:
-      - "9091:8080"
+      - "8086:8086"
