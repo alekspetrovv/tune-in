@@ -10,6 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>blog-service</artifactId>
+    <packaging>jar</packaging>
     <version>1.0</version>
     <name>blog-service</name>
     <description>blog-service</description>
