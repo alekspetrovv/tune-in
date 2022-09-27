@@ -12,3 +12,12 @@ eureka:
 spring:
   application:
     name: blog-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/tune_in
+    username: root
+    password: luck
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    show-sql: true
