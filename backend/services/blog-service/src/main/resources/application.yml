@@ -1,3 +1,7 @@
+application:
+  title: Blog Service
+  version: 1.0
+
 server:
   port: 8085
 eureka:
@@ -8,10 +12,10 @@ eureka:
     prefer-ip-address: true
     hostname: localhost
 
-
 spring:
   application:
     name: blog-service
+
   datasource:
     url: jdbc:mysql://localhost:3306/tune_in
     username: root
