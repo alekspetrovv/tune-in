@@ -15,15 +15,11 @@ cache:
   
 build:
   stage: build
-  tags:
-    - docker
   script:
     - cd backend
     - mvn clean install
 test:
   stage: test
-  tags:
-    - docker
   script:
     - cd backend
     - mvn test
