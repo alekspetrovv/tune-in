@@ -6,19 +6,19 @@ build:
   stage: build
   script:
       - cd backend
-      - mvn clean install
+      - $MAVEN_HOME/bin/mvn clean install
 
 test:  
   stage: test   
   script:
       - cd backend
-      - mvn test
+      - $MAVEN_HOME/bin/mvn test
   
 docker-containers:  
   stage: build   
   script:
       - cd backend
-      - mvn clean install
+      - $MAVEN_HOME/bin/mvn clean install
       - docker compose up --build -d 
   
 
