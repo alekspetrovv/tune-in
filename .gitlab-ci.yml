@@ -1,0 +1,25 @@
+stages:          
+  - build
+  - test
+
+build:       
+  stage: build
+  script:
+      - cd backend
+      - mvn clean install
+
+test:  
+  stage: test   
+  script:
+      - cd backend
+      - mvn test
+  
+docker-containers:  
+  stage: build   
+  script:
+      - cd backend
+      - mvn clean install
+      - docker compose up --build -d 
+  
+
+
