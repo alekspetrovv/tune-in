@@ -1,26 +1,16 @@
-image: maven:latest 
-stages:          
+image: maven
+stages:
   - build
   - test
-	
-build:       
+  
+build:
   stage: build
   script:
-      - cd backend
-      - mvn clean install
-
-test:  
-  stage: test   
+    - cd backend
+    - mvn clean install
+test:
+  stage: test
   script:
-      - cd backend
-      - mvn test
-   
-docker-containers:  
-  stage: build   
-  script:
-      - cd backend
-      - mvn clean install
-      - docker compose up --build -d 
-  
-
+    - cd backend
+    - mvn test
 
