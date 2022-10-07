@@ -21,64 +21,56 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_SERVER_DOMAIN=localhost
 
+  mysqldb:
+    image: "mysql:latest"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=tune-in
+    ports:
+      - "3307:3306"
 
-#  mysqldb:
-#    image: "mysql:latest"
-#    environment:
-#      - MYSQL_ROOT_PASSWORD=root
-#      - MYSQL_DATABASE=tune-in
-#    ports:
-#      - "3307:3306"
-#
-#  discovery-service:
-#    build: services/discovery-service
-#    ports:
-#      - "8090:8090"
-#
-#  gateway-service:
-#    build: services/gateway-service
-#    restart: always
-#    ports:
-#      - "8070:8070"
-#    environment:
-#      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-#    depends_on:
-#      - discovery-service
-#
-#  user-service:
-#    build: services/user-service
-#    restart: always
-#    ports:
-#      - "8086:8086"
-#    environment:
-#      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-#      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
-#      spring_datasource_password: "root"
-#    depends_on:
-#      - mysqldb
-#      - discovery-service
-#
-#  blog-service:
-#    build: services/blog-service
-#    restart: always
-#    ports:
-#      - "8085:8085"
-#    environment:
-#      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-#      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
-#      spring_datasource_password: "root"
-#    depends_on:
-#      - mysqldb
-#      - discovery-service
+  discovery-service:
+    build: services/discovery-service
+    ports:
+      - "8090:8090"
 
+  gateway-service:
+    build: services/gateway-service
+    restart: always
+    ports:
+      - "8070:8070"
+    environment:
+      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
+    depends_on:
+      - discovery-service
+
+  user-service:
+    build: services/user-service
+    restart: always
+    ports:
+      - "8086:8086"
+    environment:
+      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
+      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
+      spring_datasource_password: "root"
+    depends_on:
+      - mysqldb
+      - discovery-service
+
+  blog-service:
+    build: services/blog-service
+    restart: always
+    ports:
+      - "8085:8085"
+    environment:
+      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
+      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
+      spring_datasource_password: "root"
+    depends_on:
+      - mysqldb
+      - discovery-service
 
 
-#  grafana:
-#    image: grafana/grafana
-#    container_name: grafana
-#    network_mode: "host"
-#    env_file:
-#      - ./grafana.env
 
 
 
