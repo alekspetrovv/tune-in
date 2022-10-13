@@ -52,7 +52,7 @@ resilience4j:
         failureRateThreshold: 50
         minimumNumberOfCalls: 5
         automaticTransitionFromOpenToHalfOpenEnabled: true
-        waitDurationInOpenState: 5m
+        waitDurationInOpenState: 5s
     instances:
       userService:
         baseConfig: default

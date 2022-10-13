@@ -10,7 +10,6 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class UserService {
     private RestTemplate restTemplate;
-    private int counter;
 
     @Autowired
     public UserService(RestTemplate restTemplate) {
