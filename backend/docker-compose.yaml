@@ -22,7 +22,7 @@ services:
       - GF_SERVER_DOMAIN=localhost
 
   mysqldb:
-    image: mysql:5.7
+    image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -30,18 +30,17 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3307:3306"
+
+
   keycloak:
-    image: jboss/keycloak:latest
-    environment:
-      DB_VENDOR: MYSQL
-      DB_ADDR: mysqldb
-      DB_DATABASE: ${MYSQL_DATABASE}
-      DB_USER: ${MYSQL_USER}
-      DB_PASSWORD: ${MYSQL_PASSWORD}
-      KEYCLOAK_USER: ${KEYCLOAK_USER}
-      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+    build: services/keycloak
     ports:
       - "8080:8080"
+    command:
+      - start-dev --db-url-host=jdbc:mysql://mysqldb:3306/tune-in
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: pass
     depends_on:
       - mysqldb
 
