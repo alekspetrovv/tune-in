@@ -24,6 +24,8 @@ spring:
           uri: lb://user-service:8086
           predicates:
             - Path=/user/**
+          filters:
+            TokenRelay=
         - id: blogService
           uri: lb://blog-service:8085
           predicates:
@@ -42,7 +44,7 @@ spring:
             client-secret: v2b6eKLA0pSIvtZ9dvpKaGVf29ShJvHc
             authorization-grant-type: authorization_code
             redirect-uri: "http://localhost:8070/login/oauth2/code/gateway"
-            scope: openid, blogs.read
+            scope: openid, users.read, blogs.read
         provider:
           my-provider:
             issuer-uri: http://localhost:8080/realms/my_realm

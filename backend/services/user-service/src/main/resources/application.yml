@@ -2,7 +2,6 @@ application:
   title: User Service
   version: 1.0
 
-
 server:
   port: 8086
 eureka:
@@ -28,6 +27,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # validated token by keycloak
+          issuer-uri: http://localhost:8080/realms/my_realm
 
 management:
   endpoints:
