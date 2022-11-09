@@ -1,26 +1,26 @@
 version: '3'
 services:
-  prometheus:
-    image: prom/prometheus:latest
-    network_mode: host
-    container_name: prometheus
-    restart: unless-stopped
-    volumes:
-      - ./data/prometheus/config:/etc/prometheus/
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-    ports:
-      - "9090:9090"
-
-  grafana:
-    image: grafana/grafana-oss:8.5.2
-    network_mode: host
-    container_name: grafana
-    restart: unless-stopped
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_SERVER_DOMAIN=localhost
-
+#  prometheus:
+#    image: prom/prometheus:latest
+#    network_mode: host
+#    container_name: prometheus
+#    restart: unless-stopped
+#    volumes:
+#      - ./data/prometheus/config:/etc/prometheus/
+#    command:
+#      - "--config.file=/etc/prometheus/prometheus.yml"
+#    ports:
+#      - "9090:9090"
+#
+#  grafana:
+#    image: grafana/grafana-oss:8.5.2
+#    network_mode: host
+#    container_name: grafana
+#    restart: unless-stopped
+#    environment:
+#      - GF_SECURITY_ADMIN_PASSWORD=admin
+#      - GF_SERVER_DOMAIN=localhost
+#
   mysqldb:
     image: mysql:latest
     environment:
@@ -39,53 +39,56 @@ services:
     command:
       - start-dev --db-url-host=jdbc:mysql://mysqldb:3306/tune-in
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: pass
+      KC_DB_USERNAME: ${MYSQL_USER}
+      KC_DB_PASSWORD: ${MYSQL_PASSWORD}
+      KC_HOSTNAME: ${KC_HOSTNAME}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
     depends_on:
       - mysqldb
 
-  discovery-service:
-    build: services/discovery-service
-    ports:
-      - "8090:8090"
-
-  gateway-service:
-    build: services/gateway-service
-    restart: always
-    ports:
-      - "8070:8070"
-    environment:
-      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-    depends_on:
-      - discovery-service
-      - keycloak
-
-
-  user-service:
-    build: services/user-service
-    restart: always
-    ports:
-      - "8086:8086"
-    environment:
-      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
-      spring_datasource_password: "root"
-    depends_on:
-      - mysqldb
-      - discovery-service
-
-  blog-service:
-    build: services/blog-service
-    restart: always
-    ports:
-      - "8085:8085"
-    environment:
-      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
-      spring_datasource_password: "root"
-    depends_on:
-      - mysqldb
-      - discovery-service
+#  discovery-service:
+#    build: services/discovery-service
+#    ports:
+#      - "8090:8090"
+#
+#  gateway-service:
+#    build: services/gateway-service
+#    restart: always
+#    ports:
+#      - "8070:8070"
+#    environment:
+#      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
+#    depends_on:
+#      - discovery-service
+#      - keycloak
+#
+#
+#  user-service:
+#    build: services/user-service
+#    restart: always
+#    ports:
+#      - "8086:8086"
+#    environment:
+#      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
+#      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
+#      spring_datasource_password: "root"
+#    depends_on:
+#      - mysqldb
+#      - discovery-service
+#
+#  blog-service:
+#    build: services/blog-service
+#    restart: always
+#    ports:
+#      - "8085:8085"
+#    environment:
+#      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
+#      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
+#      spring_datasource_password: "root"
+#    depends_on:
+#      - mysqldb
+#      - discovery-service
 
 
 
