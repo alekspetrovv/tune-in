@@ -9,7 +9,9 @@ stages:
   - sonarqube
   - deploy
 
-    
+include:
+  - template: Dependency-Scanning.gitlab-ci.yml
+
 cache:
   paths:
     - .m2/repository
