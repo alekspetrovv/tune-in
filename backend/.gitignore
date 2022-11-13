@@ -1,2 +1,6 @@
 .idea
 .env
+.target
+.sonar*
+*txt
+tune-in.iml
