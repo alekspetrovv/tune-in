@@ -7,6 +7,7 @@ stages:
   - build
   - test
   - sonarqube
+  - deploy
 
     
 cache:
@@ -29,6 +30,11 @@ sonarqube:
   script:
     - cd backend
     - mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=luck
+deploy:
+  stage: deploy
+  script:
+    - cd backend
+    - mvn compile
 
 
 
