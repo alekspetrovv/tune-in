@@ -27,7 +27,7 @@ test:
   script:
     - cd backend
     - mvn test
-sonarqube-check:
+sonarqube:
   stage: sonarqube
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
@@ -37,7 +37,7 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script:
-    - mvn verify sonar:sonar -Dsonar.projectKey=com.example:tune-in -Dsonar.host.url=$SONAR_HOST_URL
+    - mvn verify sonar:sonar -Dsonar.projectKey=com.example:tune-in
   allow_failure: true
   only:
     - master # or the name of your main branch
