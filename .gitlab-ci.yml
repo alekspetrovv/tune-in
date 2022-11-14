@@ -32,6 +32,7 @@ test:
 sonarqube:
   stage: sonarqube
   script:
+    - cd backend
     - mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=luck
 
 deploy:
