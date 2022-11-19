@@ -47,5 +47,5 @@ stages:
 compose:
   stage: compose
   script:
-    - cd backend
-    - docker-compose up -d --build
+    - cd backend/blog-service
+    - docker build .
