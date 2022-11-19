@@ -48,5 +48,5 @@ compose:
   stage: compose
   script:
     - cd backend
-    - mvn clean install
+    - docker info
     - docker compose up --build -d
