@@ -49,4 +49,16 @@ compose:
   stage: compose
   script:
     - cd backend/services/blog-service
+    - docker pull maven
     - mvn clean install && docker build .
+
+compose-2:
+  image: docker
+  services:
+    - docker:dind
+  stage: compose
+  script:
+    - cd backend
+    - docker pull maven
+    - mvn clean install && docker build .
+
