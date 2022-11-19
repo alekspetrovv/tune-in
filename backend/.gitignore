@@ -1,5 +1,5 @@
-#.idea
-#.env
-#.sonar*
-#*txt
-#tune-in.iml
+.idea
+.env
+.sonar*
+*txt
+tune-in.iml

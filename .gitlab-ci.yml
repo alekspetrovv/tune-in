@@ -6,41 +6,41 @@ variables:
 image: maven:latest
 
 stages:
-#  - build
-#  - test
-#  - sonarqube
-#  - deploy
+  - build
+  - test
+  - sonarqube
+  - deploy
   - compose
 
-#
-#cache:
-#  paths:
-#    - .m2/repository
-#    - target
-#
-#build:
-#  stage: build
-#  script:
-#    - cd backend
-#    - mvn clean install
-#
-#test:
-#  stage: test
-#  script:
-#    - cd backend
-#    - mvn test
-#
-#sonarqube:
-#  stage: sonarqube
-#  script:
-#    - cd backend
-#    - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD
-#
-#deploy:
-#  stage: deploy
-#  script:
-#    - cd backend
-#    - mvn compile
+
+cache:
+  paths:
+    - .m2/repository
+    - target
+
+build:
+  stage: build
+  script:
+    - cd backend
+    - mvn clean install
+
+test:
+  stage: test
+  script:
+    - cd backend
+    - mvn test
+
+sonarqube:
+  stage: sonarqube
+  script:
+    - cd backend
+    - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD
+
+deploy:
+  stage: deploy
+  script:
+    - cd backend
+    - mvn compile
 
 compose:
   image: docker
@@ -49,16 +49,5 @@ compose:
   stage: compose
   script:
     - cd backend/services/blog-service
-    - docker pull maven
-    - mvn clean install && docker build .
-
-compose-2:
-  image: docker
-  services:
-    - docker:dind
-  stage: compose
-  script:
-    - cd backend
-    - docker pull maven
     - mvn clean install && docker build .
 
