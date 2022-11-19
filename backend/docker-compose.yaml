@@ -75,21 +75,21 @@ services:
       spring_datasource_password: "root"
     depends_on:
       - mysqldb
-      - discovery-service
-
-  blog-service:
-    build: services/blog-service
-    restart: always
-    ports:
-      - "8085:8085"
-    environment:
-      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
-      spring_datasource_password: "root"
-    depends_on:
-      - mysqldb
-      - discovery-service
-
+#      - discovery-service
+#
+#  blog-service:
+#    build: services/blog-service
+#    restart: always
+#    ports:
+#      - "8085:8085"
+#    environment:
+#      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
+#      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
+#      spring_datasource_password: "root"
+#    depends_on:
+#      - mysqldb
+#      - discovery-service
+#
 
 
 
