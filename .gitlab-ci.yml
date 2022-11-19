@@ -1,3 +1,6 @@
+before_script:
+  - docker info
+
 variables:
   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
@@ -8,6 +11,7 @@ stages:
   - test
   - sonarqube
   - deploy
+  - compose
 
 include:
   - template: Jobs/Dependency-Scanning.gitlab-ci.yml
@@ -40,3 +44,9 @@ deploy:
   script:
     - cd backend
     - mvn compile
+
+compose:
+  stage: compose
+  script:
+    - cd backend
+    - mvn clean install && docker compose up --build -d
