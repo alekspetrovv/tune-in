@@ -2,7 +2,6 @@ variables:
   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
 
-
 image: maven:latest
 
 stages:
@@ -48,6 +47,6 @@ compose:
     - docker:dind
   stage: compose
   script:
-    - cd backend/services/blog-service
-    - mvn clean install && docker build .
+    - cd backend
+    - echo "compose".
 
