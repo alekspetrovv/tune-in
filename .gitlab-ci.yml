@@ -1,10 +1,11 @@
 variables:
   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
-before_script:
-  - docker info
 
-image: maven:latest
+image: docker
+services:
+  - docker:dind
+#image: maven:latest
 
 stages:
 #  - build
@@ -44,11 +45,7 @@ stages:
 #    - mvn compile
 
 compose:
-  image: docker
-  services:
-    - docker:dind
   stage: compose
   script:
     - cd backend
-#    - docker info
     - docker compose up --build -d
