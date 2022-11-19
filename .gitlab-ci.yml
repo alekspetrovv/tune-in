@@ -2,10 +2,7 @@ variables:
   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
 
-image: maven:latest, gitlab/dind
-
-services:
-  - docker:dind
+image: maven:latest
 
 stages:
   - build
@@ -45,6 +42,9 @@ deploy:
     - mvn compile
 
 compose:
+  image: docker
+  services:
+    - docker:dind
   stage: compose
   script:
     - cd backend
