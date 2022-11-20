@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feed-deployment
+  labels:
+    app: feed-deployment
+spec:
+  replicas: 5
+  template:
+    metadata:
+      name: feed-pod
+      labels:
+        app: feed-pod
+    spec:
+      containers:
+        - name: feed-container
+          image: alekspetrovv/feed-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8087
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: feed-pod
