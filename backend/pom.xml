@@ -18,6 +18,7 @@
         <module>./services/discovery-service</module>
         <module>./services/gateway-service</module>
         <module>./services/blog-service</module>
+        <module>./services/feed-service</module>
         <module>./services/user-service</module>
     </modules>
 
