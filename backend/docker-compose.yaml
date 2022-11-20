@@ -34,6 +34,7 @@ services:
 
 
   feed-service:
+    image: alekspetrovv/feed-service
     build: services/feed-service
     restart: always
     ports:
