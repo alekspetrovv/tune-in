@@ -32,64 +32,12 @@ services:
       - "3307:3306"
 
 
-  keycloak:
-    build: services/keycloak
-    ports:
-      - "8080:8080"
-    command:
-      - start-dev --db-url-host=jdbc:mysql://mysqldb:3306/tune-in
-    environment:
-      KC_DB_USERNAME: ${MYSQL_USER}
-      KC_DB_PASSWORD: ${MYSQL_PASSWORD}
-      KC_HOSTNAME: ${KC_HOSTNAME}
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-    depends_on:
-      - mysqldb
 
-  discovery-service:
-    build: services/discovery-service
-    ports:
-      - "8090:8090"
-
-  gateway-service:
-    build: services/gateway-service
+  feed-service:
+    build: services/feed-service
     restart: always
     ports:
-      - "8070:8070"
-    environment:
-      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-    depends_on:
-      - discovery-service
-      - keycloak
-
-
-  user-service:
-    build: services/user-service
-    restart: always
-    ports:
-      - "8086:8086"
-    environment:
-      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
-      spring_datasource_password: "root"
-    depends_on:
-      - mysqldb
-      - discovery-service
-
-  blog-service:
-    build: services/blog-service
-    restart: always
-    ports:
-      - "8085:8085"
-    environment:
-      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
-      spring_datasource_password: "root"
-    depends_on:
-      - mysqldb
-      - discovery-service
-
+      - "8087:8087"
 
 
 
