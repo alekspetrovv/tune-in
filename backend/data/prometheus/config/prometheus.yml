@@ -15,6 +15,7 @@ scrape_configs:
 #    static_configs:
 #      - targets: ['localhost:9113']
 
+
   - job_name: 'blog-service'
     metrics_path: '/actuator/prometheus'
     scrape_interval: 2s
@@ -46,3 +47,13 @@ scrape_configs:
       - targets: [ 'localhost:8070' ]
         labels:
           application: "Gateway Service"
+
+
+
+  - job_name: 'feed-service'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 2s
+    static_configs:
+      - targets: [ 'localhost:8087' ]
+        labels:
+          application: "Feed Service"
