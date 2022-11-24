@@ -74,12 +74,6 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.example</groupId>
-            <artifactId>user-service</artifactId>
-            <version>1.0</version>
-        </dependency>
-
     </dependencies>
 
     <dependencyManagement>

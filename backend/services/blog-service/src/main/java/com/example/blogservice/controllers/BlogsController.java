@@ -22,5 +22,10 @@ public class BlogsController {
         return this.userService.receiveMessage();
     }
 
+    @GetMapping("/test")
+    public String test() {
+        return "test 2";
+    }
+
 
 }
