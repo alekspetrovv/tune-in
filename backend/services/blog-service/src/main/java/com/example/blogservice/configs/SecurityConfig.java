@@ -1,4 +1,4 @@
-package com.example.blogservice.security;
+package com.example.blogservice.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

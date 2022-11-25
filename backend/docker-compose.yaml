@@ -47,20 +47,6 @@ services:
       - discovery-service
       - keycloak
 
-
-  user-service:
-    build: services/user-service
-    restart: always
-    ports:
-      - "8086:8086"
-    environment:
-      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
-      spring_datasource_password: "root"
-    depends_on:
-      - mysqldb
-      - discovery-service
-
   blog-service:
     build: services/blog-service
     restart: always
@@ -97,8 +83,8 @@ services:
     restart: always
     ports:
       - "8087:8087"
-
-
+    depends_on:
+      - discovery-service
 
 
 
