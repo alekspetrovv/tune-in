@@ -125,10 +125,11 @@ deploy_prod:
   stage: deploy
   image: google/cloud-sdk:alpine
   script:
-  - echo $GCP_SA_KEY > /tmp/gcloud-service-key.json
-  - gcloud auth activate-service-account --key-file /tmp/gcloud-service-key.json
-  - gcloud config set project $GCP_PROJECT_ID
-  - gcloud builds submit . --config=cloudbuild.yaml
+  - cat $GCP_SA_KEY >> gcloud-service-key.json
+  - cat gcloud-service-key.json
+  # - gcloud auth activate-service-account --key-file gcloud-service-key.json
+  # - gcloud config set project $GCP_PROJECT_ID
+  # - gcloud builds submit . --config=cloudbuild.yaml
 
 # after_script:
 # - rm /tmp/gcloud-service-key.json
