@@ -3,6 +3,8 @@ steps:
     # [App] build the container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'gcr.io/compact-window-369312/app', './backend/services/feed-service' ]
+options:
+  logging: CLOUD_LOGGING_ONLY
     # [App] push the container image
   # - name: 'gcr.io/cloud-builders/docker'
   #   args: [ 'push', 'gcr.io/$PROJECT_ID/app']
