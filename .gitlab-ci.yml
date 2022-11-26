@@ -61,7 +61,7 @@ deploy_prod:
   - echo $GCP_SA_KEY > gcloud-service-key.json
   - gcloud auth activate-service-account --key-file gcloud-service-key.json
   - gcloud config set project $GCP_PROJECT_ID
-  - gcloud --quiet builds submit . --config=cloudbuild.yaml
+  - gcloud builds submit . --config=cloudbuild.yaml
 
 # after_script:
 # - rm /tmp/gcloud-service-key.json
