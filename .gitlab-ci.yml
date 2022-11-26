@@ -44,14 +44,14 @@ cache:
 
 
 stages:
-  - build
+  # - build
   - deploy
 
-build:
-  stage: build
-  script:
-    - cd backend
-    - mvn clean install
+# build:
+#   stage: build
+#   script:
+#     - cd backend
+#     - mvn clean install
 
 
 deploy_prod:
@@ -61,7 +61,7 @@ deploy_prod:
   - echo $GCP_SA_KEY > gcloud-service-key.json
   - gcloud auth activate-service-account --key-file gcloud-service-key.json
   - gcloud config set project $GCP_PROJECT_ID
-  - gcloud builds submit . --config=cloudbuild.yaml
+  - gcloud --quiet builds submit . --config=cloudbuild.yaml
 
 # after_script:
 # - rm /tmp/gcloud-service-key.json
