@@ -126,7 +126,7 @@ deploy_prod:
   image: google/cloud-sdk:alpine
   script:
   - echo $GCP_SA_KEY > gcloud-service-key.json
-  - echo gcloud-service-key.json
+  - cat gcloud-service-key.json
   # - ls
   # - gcloud auth activate-service-account --key-file gcloud-service-key.json
   # - gcloud config set project $GCP_PROJECT_ID
