@@ -98,7 +98,7 @@ before_script:
   # Login to Google Container Registry
   - base64 -d $GCP_SA_KEY | docker login -u _json_key --password-stdin https://gcr.io
   # Login to Gitlab container Registry
-  - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token $CI_REGISTRY --password-stdin
+  - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token $GITLAB_IMAGE --password-stdin
 
 build:
   stage: build
