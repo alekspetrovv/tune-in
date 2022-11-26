@@ -119,7 +119,15 @@
 
 
 stages:
+  - build
   - deploy
+
+build:
+  stage: build
+  script:
+    - cd backend
+    - mvn clean install
+
 
 deploy_prod:
   stage: deploy
