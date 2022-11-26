@@ -7,8 +7,8 @@ image: maven:latest
 stages:
   - build
   - test
-  - sonarqube
-  - deploy_local
+  # - sonarqube
+  # - deploy_local
 
 
 cache:
@@ -28,16 +28,16 @@ test:
     - cd backend
     - mvn test
 
-sonarqube:
-  stage: sonarqube
-  script:
-    - cd backend
-    - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.qualitygate.wait=false
+# sonarqube:
+#   stage: sonarqube
+#   script:
+#     - cd backend
+#     - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.qualitygate.wait=false
 
-deploy:
-  stage: deploy_local
-  script:
-    - cd backend
-    - mvn compile
+# deploy:
+#   stage: deploy_local
+#   script:
+#     - cd backend
+#     - mvn compile
 
 
