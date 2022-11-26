@@ -1,8 +1,8 @@
-# variables:
-#   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
+variables:
+  MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
 
-# image: maven:latest
+image: maven:latest
 
 # stages:
 #   - build
@@ -12,10 +12,10 @@
 #   - compose
 
 
-# cache:
-#   paths:
-#     - .m2/repository
-#     - target
+cache:
+  paths:
+    - .m2/repository
+    - target
 
 # build:
 #   stage: build
@@ -44,7 +44,15 @@
 
 
 stages:
+  - build
   - deploy
+
+build:
+  stage: build
+  script:
+    - cd backend
+    - mvn clean install
+
 
 deploy_prod:
   stage: deploy
