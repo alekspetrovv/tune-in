@@ -40,6 +40,7 @@ deploy:
   image: google/cloud-sdk:alpine
   script:
     - echo $GCP_CLOUD_BUILD_SERVICE_KEY > /tmp/gcloud-service-key.json
-    - gcloud auth activate-service-account --key-file /tmp/gcloud-service-key.json
-    - gcloud config set project $GCP_PROJECT_ID
+    - echo /tmp/gcloud-service-key.json
+    # - gcloud auth activate-service-account --key-file /tmp/gcloud-service-key.json
+    # - gcloud config set project $GCP_PROJECT_ID
 
