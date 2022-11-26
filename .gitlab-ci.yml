@@ -86,33 +86,50 @@
 # #     - docker push $GCR_IMAGE
 
 
-image: docker:latest
+# image: docker:latest
 
-services:
-    - name: docker:dind
-      entrypoint: ["env", "-u", "DOCKER_HOST"]
-      command: ["dockerd-entrypoint.sh"]
-      variables:
-        DOCKER_HOST: tcp://docker:2375/
-        DOCKER_DRIVER: overlay2
-        # See https://github.com/docker-library/docker/pull/166
-        DOCKER_TLS_CERTDIR: ""
+# services:
+#     - name: docker:dind
+#       entrypoint: ["env", "-u", "DOCKER_HOST"]
+#       command: ["dockerd-entrypoint.sh"]
+#       variables:
+#         DOCKER_HOST: tcp://docker:2375/
+#         DOCKER_DRIVER: overlay2
+#         # See https://github.com/docker-library/docker/pull/166
+#         DOCKER_TLS_CERTDIR: ""
+
+# stages:
+#   - build
+
+# before_script:
+#   # Login to Google Container Registry
+#   - base64 -d $GCP_SA_KEY | docker login -u _json_key --password-stdin https://gcr.io
+#   # Login to Gitlab container Registry
+#   - echo $CI_JOB_TOKEN | docker login registry.example.com -u I444915 -p p4yaiWwYJNVKhPiqfhT5
+
+# build:
+#   stage: build
+#   script:
+#     # Build and tag image for both GCR and Gitlab registries
+#     - docker build --cache-from -t gcr.io/arctic-goal-676703/colinwilson/test_image:1.0 .
+#     # Push image to GCR
+#     - docker push gcr.io/arctic-goal-676703/colinwilson/test_image:1.0
+#     # Push image to Gitlab registry
+#     - docker push $CI_REGISTRY_IMAGE:latest
+
 
 stages:
-  - build
+  - deploy
 
-before_script:
-  # Login to Google Container Registry
-  - base64 -d $GCP_SA_KEY | docker login -u _json_key --password-stdin https://gcr.io
-  # Login to Gitlab container Registry
-  - echo $CI_JOB_TOKEN | docker login registry.example.com -u I444915 -p p4yaiWwYJNVKhPiqfhT5
-
-build:
-  stage: build
+deploy_prod:
+  stage: deploy
+  image: google/cloud-sdk:alpine
   script:
-    # Build and tag image for both GCR and Gitlab registries
-    - docker build --cache-from -t gcr.io/arctic-goal-676703/colinwilson/test_image:1.0 .
-    # Push image to GCR
-    - docker push gcr.io/arctic-goal-676703/colinwilson/test_image:1.0
-    # Push image to Gitlab registry
-    - docker push $CI_REGISTRY_IMAGE:latest
+  - echo $GCP_SA_KEY > /tmp/gcloud-service-key.json
+  - gcloud auth activate-service-account --key-file /tmp/gcloud-service-key.json
+  - gcloud config set project $GCP_PROJECT_ID
+  - gcloud builds submit . --config=cloudbuild.yaml
+
+# after_script:
+# - rm /tmp/gcloud-service-key.json
+
