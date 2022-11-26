@@ -126,7 +126,7 @@ deploy_prod:
   image: google/cloud-sdk:alpine
   script:
   - echo $GCP_SA_KEY > /tmp/gcloud-service-key.json
-  - gcloud auth activate-service-account --access-token-file /tmp/gcloud-service-key.json
+  - gcloud auth activate-service-account --key-file /tmp/gcloud-service-key.json
   - gcloud config set project $GCP_PROJECT_ID
   - gcloud builds submit . --config=cloudbuild.yaml
 
