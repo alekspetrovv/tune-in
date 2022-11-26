@@ -1,11 +1,8 @@
 steps:
       # [App] build the packages
   - name: 'gcr.io/cloud-builders/mvn'
-    entrypoint: bash
-    args: ['./scripts/build.bash']
-    volumes:
-      - name: 'jar'
-        path: /backend
+    entrypoint: mvn
+    args: ['package', './backend']
   #   # App
   #   # [App] build the container image
   # - name: 'gcr.io/cloud-builders/docker'
