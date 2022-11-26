@@ -1,52 +1,85 @@
-variables:
-  MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
+# variables:
+#   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
 
-image: maven:latest
+# image: maven:latest
+
+# stages:
+#   - build
+#   - test
+#   - sonarqube
+#   - deploy
+#   - compose
+
+
+# cache:
+#   paths:
+#     - .m2/repository
+#     - target
+
+# build:
+#   stage: build
+#   script:
+#     - cd backend
+#     - mvn clean install
+
+# test:
+#   stage: test
+#   script:
+#     - cd backend
+#     - mvn test
+
+# sonarqube:
+#   stage: sonarqube
+#   script:
+#     - cd backend
+#     - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD
+
+# deploy:
+#   stage: deploy
+#   script:
+#     - cd backend
+#     - mvn compile
+
+# compose:
+#   image: docker
+#   services:
+#     - docker:dind
+#   stage: compose
+#   script:
+#     - cd backend
+#     - echo "compose".
+
+
+
+image: docker:git
 
 stages:
   - build
-  - test
-  - sonarqube
   - deploy
-  - compose
 
-
-cache:
-  paths:
-    - .m2/repository
-    - target
+services:
+  - docker:dind
 
 build:
   stage: build
+  before_script:
+    # $CI_JOB_TOKEN is variable automatically added by Gitlab: see https://docs.gitlab.com/ee/ci/variables/predefined_variables.html#variables-reference
+    - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token registry.gitlab.com --password-stdin
   script:
-    - cd backend
-    - mvn clean install
+    - docker pull $GITLAB_IMAGE || true # Allows us to use --cache-from
+    - docker build --cache-from $GITLAB_IMAGE -t $GITLAB_IMAGE:$CI_COMMIT_SHA .
+    - docker push $GITLAB_IMAGE:$CI_COMMIT_SHA
 
-test:
-  stage: test
-  script:
-    - cd backend
-    - mvn test
-
-sonarqube:
-  stage: sonarqube
-  script:
-    - cd backend
-    - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD
-
-deploy:
-  stage: deploy
-  script:
-    - cd backend
-    - mvn compile
-
-compose:
-  image: docker
-  services:
-    - docker:dind
-  stage: compose
-  script:
-    - cd backend
-    - echo "compose".
+# deploy:
+#   stage: deploy
+#   before_script:
+#     # Login to Gitlab registry
+#     - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token registry.gitlab.com --password-stdin
+#     # Login to Google Cloud Registry
+#     - echo $GOOGLE_CLOUD_ACCOUNT | docker login -u _json_key --password-stdin https://eu.gcr.io
+#   script:
+#     - docker pull $GITLAB_IMAGE:$CI_COMMIT_SHA
+#     - docker tag $GITLAB_IMAGE:$CI_COMMIT_SHA $GCR_IMAGE:latest
+#     - docker push $GCR_IMAGE
 
