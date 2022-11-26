@@ -1,7 +1,7 @@
 steps:
     # App
     # [App] build the container image
-  - name: 'gcr.io/cloud/feed-service'
+  - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'backend/services/feed-service', '.' ]
 #     # [App] push the container image
 #   - name: 'gcr.io/cloud-builders/docker'
