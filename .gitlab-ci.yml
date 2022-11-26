@@ -1,15 +1,15 @@
-variables:
-  MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
+# variables:
+#   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
 
-image: maven:latest
+# image: maven:latest
 
-stages:
-  # - build
-  # - test
-  - deploy
-  # - sonarqube
-  # - deploy_local
+# stages:
+#   - build
+#   - test
+#   - sonarqube
+#   - deploy
+#   - compose
 
 
 # cache:
@@ -33,14 +33,28 @@ stages:
 #   stage: sonarqube
 #   script:
 #     - cd backend
-#     - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.qualitygate.wait=false
+#     - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD
 
-deploy:
+# deploy:
+#   stage: deploy
+#   script:
+#     - cd backend
+#     - mvn compile
+
+
+
+stages:
+  - deploy
+
+deploy_prod:
   stage: deploy
   image: google/cloud-sdk:alpine
   script:
-    - echo $GCP_CLOUD_BUILD_SERVICE_KEY > /tmp/gcloud-service-key.json
-    - echo /tmp/gcloud-service-key.json
-    # - gcloud auth activate-service-account --key-file /tmp/gcloud-service-key.json
-    # - gcloud config set project $GCP_PROJECT_ID
+  - echo $GCP_SA_KEY > gcloud-service-key.json
+  - gcloud auth activate-service-account --key-file gcloud-service-key.json
+  - gcloud config set project $GCP_PROJECT_ID
+  - gcloud builds submit . --config=cloud-build.yaml
+
+# after_script:
+# - rm /tmp/gcloud-service-key.json
 
