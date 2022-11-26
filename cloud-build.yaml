@@ -1,0 +1,19 @@
+steps:
+    # App
+    # [App] build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'backend/services/feed-service', '.' ]
+#     # [App] push the container image
+#   - name: 'gcr.io/cloud-builders/docker'
+#     args: [ 'push', 'gcr.io/$PROJECT_ID/app']
+#     # [App] deploy container to Cloud Run
+#   - name: "gcr.io/cloud-builders/gcloud"
+#     args: [
+#       'run', 
+#       'deploy', 
+#       'app', 
+#       '--image', 
+#       'gcr.io/$PROJECT_ID/app', 
+#       '--region', 'us-central1', 
+#       '--platform', 'managed', 
+#       '--allow-unauthenticated']
