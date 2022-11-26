@@ -1,4 +1,7 @@
 steps:
+    # [App] build the packages
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: [ 'mvn', 'clean install', 'gcr.io/compact-window-369312/app', './backend' ]
     # App
     # [App] build the container image
   - name: 'gcr.io/cloud-builders/docker'
