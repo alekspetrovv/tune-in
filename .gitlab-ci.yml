@@ -8,8 +8,7 @@ stages:
   - build
   - test
   - sonarqube
-  - deploy
-  - compose
+  - deploy_local
 
 
 cache:
@@ -36,17 +35,9 @@ sonarqube:
     - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.qualitygate.wait=false
 
 deploy:
-  stage: deploy
+  stage: deploy_local
   script:
     - cd backend
     - mvn compile
 
-compose:
-  image: docker
-  services:
-    - docker:dind
-  stage: compose
-  script:
-    - cd backend
-    - echo "compose".
 
