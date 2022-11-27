@@ -5,7 +5,7 @@ steps:
     args: ['package','-Dmaven.test.skip=true']
     dir: './backend'
   # build the container image
-  - name: 'docker'
+  - name: 'cloud-builders-community/docker-compose'
     args: [ 'compose', 'up', 'gcr.io/${PROJECT_ID}/app', './backend' ]
   #   # build the container image
   # - name: 'gcr.io/cloud-builders/docker'
