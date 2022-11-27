@@ -6,7 +6,8 @@ steps:
     dir: './backend'
   # build the container image
   - name: 'docker/compose:1.19.0'
-    args: ['up', '-d', 'gcr.io/${PROJECT_ID}/app', './backend' ]
+    args: ['up', '-d']
+    dir: './backend'
   #   # build the container image
   # - name: 'gcr.io/cloud-builders/docker'
   #   args: [ 'build', '-t', 'gcr.io/${PROJECT_ID}/app', './backend/services/feed-service' ]
