@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   prometheus:
     image: prom/prometheus:latest
     network_mode: host
@@ -31,35 +32,12 @@ services:
     ports:
       - "3307:3306"
 
-  discovery-service:
-   build: services/discovery-service
-   ports:
-     - "8090:8090"
-
-  gateway-service:
-    build: services/gateway-service
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    hostname: localhost
     restart: always
     ports:
-      - "8070:8070"
-    environment:
-      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-    depends_on:
-      - discovery-service
-      - keycloak
-
-  blog-service:
-    build: services/blog-service
-    restart: always
-    ports:
-      - "8085:8085"
-    environment:
-      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
-      spring_datasource_password: "root"
-    depends_on:
-      - mysqldb
-      - discovery-service
-
+      - "15672:15672"
 
   keycloak:
     build: services/keycloak
@@ -73,19 +51,28 @@ services:
       KC_HOSTNAME: ${KC_HOSTNAME}
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-    depends_on:
-      - mysqldb
 
 
   feed-service:
     image: alekspetrovv/feed-service
     build: services/feed-service
     restart: always
+    environment:
+      host_rabbit: rabbitmq
     ports:
       - "8087:8087"
+
+
+  blog-service:
+    build: services/blog-service
+    restart: always
+    ports:
+      - "8085:8085"
+    environment:
+      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
+      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
+      spring_datasource_password: "root"
     depends_on:
+      - mysqldb
       - discovery-service
-
-
-
 
