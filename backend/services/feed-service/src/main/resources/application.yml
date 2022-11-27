@@ -8,14 +8,8 @@ server:
 spring:
   application:
     name: feed-service
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8090/eureka/
-  instance:
-    prefer-ip-address: true
-    hostname: localhost
+  rabbitmq:
+    host: ${host_rabbit}
 
 management:
   endpoints:
