@@ -1,58 +1,42 @@
 variables:
   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
-
 image: maven:latest
 
-# stages:
-#   - build
-#   - test
-#   - sonarqube
-#   - deploy
-#   - compose
-
+stages:
+  - build
+  - test
+  - sonarqube
+  - deploy
 
 cache:
   paths:
     - .m2/repository
     - target
 
-# build:
-#   stage: build
-#   script:
-#     - cd backend
-#     - mvn clean install
+build:
+  stage: build
+  script:
+    - cd backend
+    - mvn clean install
 
-# test:
-#   stage: test
-#   script:
-#     - cd backend
-#     - mvn test
+test:
+  stage: test
+  script:
+    - cd backend
+    - mvn test
 
-# sonarqube:
-#   stage: sonarqube
-#   script:
-#     - cd backend
-#     - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD
+sonarqube:
+  stage: sonarqube
+  script:
+    - cd backend
+    - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD
 
-# deploy:
-#   stage: deploy
-#   script:
-#     - cd backend
-#     - mvn compile
-
-
-
-stages:
-  # - build
-  - deploy
-
-# build:
-#   stage: build
-#   script:
-#     - cd backend
-#     - mvn clean install
-
+deploy_local:
+  stage: deploy
+  script:
+    - cd backend
+    - mvn package
 
 deploy_prod:
   stage: deploy
@@ -63,6 +47,4 @@ deploy_prod:
   - gcloud config set project $GCP_PROJECT_ID
   - gcloud builds submit . --config=cloudbuild.yaml
 
-# after_script:
-# - rm /tmp/gcloud-service-key.json
 
