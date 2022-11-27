@@ -10,8 +10,7 @@ steps:
     # push the container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'push', 'gcr.io/${PROJECT_ID}/app']
-    options:
-    logging: CLOUD_LOGGING_ONLY
+   
     # deploy the container image
   - name: "gcr.io/cloud-builders/gcloud"
     args: [
@@ -24,3 +23,5 @@ steps:
       '--region', 'europe-west4', 
       '--platform', 'managed', 
       '--allow-unauthenticated']
+options:
+  logging: CLOUD_LOGGING_ONLY
