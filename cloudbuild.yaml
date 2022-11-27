@@ -5,7 +5,7 @@ steps:
   #   args: ['clean', 'install', '-Dmaven.test.skip=true']
   #   dir: './backend'
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['docker run --rm -it --hostname rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3-management']
+    args: ['run --rm -it --hostname rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3-management']
   #   # build the container image
   # - name: 'gcr.io/cloud-builders/docker'
   #   args: [ 'build', '-t', 'gcr.io/${PROJECT_ID}/app', './backend/services/feed-service' ]
