@@ -33,6 +33,5 @@ sonarqube:
   script:
     - cd backend
     - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.projectKey=tune-in
-
-
+  allow_failure: true
 
