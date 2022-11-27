@@ -9,7 +9,6 @@ stages:
   - test
   - sonarqube
   - deploy
-  - compose
 
 
 cache:
@@ -17,18 +16,23 @@ cache:
     - .m2/repository
     - target
 
-build:
-  stage: build
+# build:
+#   stage: build
+#   script:
+#     - cd backend
+#     - mvn clean install
+
+# test:
+#   stage: test
+#   script:
+#     - cd backend
+#     - mvn test
+
+sonarqube:
+  stage: sonarqube
   script:
     - cd backend
-    - mvn clean install
-
-test:
-  stage: test
-  script:
-    - cd backend
-    - mvn test
-
+    - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD
 
 
 
