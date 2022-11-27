@@ -6,24 +6,24 @@ steps:
     dir: './backend'
   # build the container image
   - name: 'docker/compose:1.19.0'
-    args: ['up', '-d']
+    args: ['up', '-d',]
     dir: './backend'
   #   # build the container image
   # - name: 'gcr.io/cloud-builders/docker'
   #   args: [ 'build', '-t', 'gcr.io/${PROJECT_ID}/app', './backend/services/feed-service' ]
-  #   # push the container image
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   args: [ 'push', 'gcr.io/${PROJECT_ID}/app']
-  #   # deploy the container image
-  # - name: "gcr.io/cloud-builders/gcloud"
-  #   args: [
-  #     'run', 
-  #     'deploy', 
-  #     'app', 
-  #     '--image', 
-  #     'gcr.io/$PROJECT_ID/app', 
-  #     '--region', 'europe-west4', 
-  #     '--platform', 'managed', 
-  #     '--allow-unauthenticated']
+    # push the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'push', 'gcr.io/${PROJECT_ID}/app']
+    # deploy the container image
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: [
+      'run', 
+      'deploy', 
+      'app', 
+      '--image', 
+      'gcr.io/$PROJECT_ID/app', 
+      '--region', 'europe-west4', 
+      '--platform', 'managed', 
+      '--allow-unauthenticated']
 options:
   logging: CLOUD_LOGGING_ONLY
