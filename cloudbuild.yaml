@@ -4,10 +4,10 @@ steps:
   #   entrypoint: mvn
   #   args: ['clean', 'install', '-Dmaven.test.skip=true']
   #   dir: './backend'
-  - name: 'docker/compose:1.19.0'
-    args: ['up', '-d']
-    dir: './backend'
-  # - name: 'gcr.io/cloud-builders/docker'
+    - name: 'docker/compose:1.19.0'
+      args: ['up', '-d']
+      dir: './backend'
+    # - name: 'gcr.io/cloud-builders/docker'
     # args: ['run --rm -it --hostname rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3-management']
   #   # build the container image
   # - name: 'gcr.io/cloud-builders/docker'
