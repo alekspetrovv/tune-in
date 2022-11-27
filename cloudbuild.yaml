@@ -4,13 +4,13 @@ steps:
     entrypoint: mvn
     args: ['package','-Dmaven.test.skip=true']
     dir: './backend'
-  # build the container image
-  - name: 'docker/compose:1.19.0'
-    args: ['up', '-d', 'gcr.io/${PROJECT_ID}/app']
-    dir: './backend'
-  #   # build the container image
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   args: [ 'build', '-t', 'gcr.io/${PROJECT_ID}/app', './backend/services/feed-service' ]
+  # # build the container image
+  # - name: 'docker/compose:1.19.0'
+  #   args: ['up', '-d', 'gcr.io/${PROJECT_ID}/app']
+  #   dir: './backend'
+    # build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'gcr.io/${PROJECT_ID}/app', './backend/services/feed-service' ]
     # push the container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'push', 'gcr.io/${PROJECT_ID}/app']
