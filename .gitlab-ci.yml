@@ -20,17 +20,17 @@ build:
     - cd backend
     - mvn clean install
 
-test:
-  stage: test
-  script:
-    - cd backend
-    - mvn test
+# test:
+#   stage: test
+#   script:
+#     - cd backend
+#     - mvn test
 
 sonarqube:
   stage: sonarqube
   script:
     - cd backend
-    - mvn verify sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.qualitygate.wait=false -Dsonar.projectKey=tune-in
+    - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.qualitygate.wait=false
 
 deploy_local:
   stage: deploy
