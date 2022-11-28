@@ -13,6 +13,8 @@ cache:
   paths:
     - .m2/repository
     - target
+    - node_modules/
+    - .npm/
 
 build:
   stage: build
@@ -27,13 +29,13 @@ test:
     - mvn test
 
 end-to-end:
+  image: node:latest
   stage: test
   script:
     - cd frontend
     - npm ci
     - npm run start:ci &
     - npm run e2e
-
 
 sonarqube:
   stage: sonarqube
