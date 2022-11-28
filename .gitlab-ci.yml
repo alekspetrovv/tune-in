@@ -31,8 +31,9 @@ end-to-end:
   stage: test
   script:
     - cd frontend
-    - npm ci
-    - npm cypress
+    - npm install
+    - npm start
+    - npm run cypress
 
 sonarqube:
   stage: sonarqube
