@@ -31,6 +31,7 @@ end-to-end:
   stage: test
   script:
     - cd frontend
+    - npm install
     - npm start
     - npm cypress
 
