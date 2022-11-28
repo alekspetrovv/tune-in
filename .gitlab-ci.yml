@@ -27,12 +27,11 @@ test:
     - mvn test
 
 end-to-end:
-  image: node:latest
+  image: cypress/browsers:node16.5.0-chrome94-ff93
   stage: test
   script:
     - cd frontend
-    - npm install
-    - npm start
+    - npm ci
     - npm cypress
 
 sonarqube:
