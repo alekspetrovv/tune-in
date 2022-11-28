@@ -14,23 +14,23 @@ cache:
     - .m2/repository
     - target
 
-# build:
-#   stage: build
-#   script:
-#     - cd backend
-#     - mvn clean install
+build:
+  stage: build
+  script:
+    - cd backend
+    - mvn clean install
 
-# test:
-#   stage: test
-#   script:
-#     - cd backend
-#     - mvn test
+test:
+  stage: test
+  script:
+    - cd backend
+    - mvn test
 
 sonarqube:
   stage: sonarqube
   script:
     - cd backend
-    - mvn clean install sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.qualitygate.wait=false
+    - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.projectKey=tune-in
 
 deploy_local:
   stage: deploy
