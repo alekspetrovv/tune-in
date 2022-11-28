@@ -26,6 +26,15 @@ test:
     - cd backend
     - mvn test
 
+end-to-end:
+  stage: test
+  script:
+    - cd frontend
+    - npm ci
+    - npm run start:ci &
+    - npm run e2e
+
+
 sonarqube:
   stage: sonarqube
   script:
@@ -34,6 +43,8 @@ sonarqube:
 
 deploy_local:
   stage: deploy
+  only:
+  - master
   script:
     - cd backend
     - mvn package
