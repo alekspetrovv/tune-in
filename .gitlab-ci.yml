@@ -26,7 +26,6 @@ frontend:
   script:
     - cd frontend
     - npm install
-    - npm start
 
 test:
   stage: test
@@ -39,7 +38,7 @@ end-to-end:
   stage: test
   script:
     - cd frontend
-    - npm cypress run
+    - npm test
 
 sonarqube:
   stage: sonarqube
