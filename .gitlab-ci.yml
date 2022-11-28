@@ -30,7 +30,7 @@ sonarqube:
   stage: sonarqube
   script:
     - cd backend
-    - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.projectKey=tune-in
+    - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.projectKey=tune-in -Dsonar.qualitygate.wait=false
 
 deploy_local:
   stage: deploy
