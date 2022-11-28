@@ -34,7 +34,7 @@ end-to-end:
   script:
     - cd frontend
     - npm start
-    - npx run cypress
+    - npx cypress run
 
 sonarqube:
   stage: sonarqube
