@@ -40,7 +40,7 @@ services:
       - "15672:15672"
 
   keycloak:
-    build: services/keycloak
+    build: services/authorization-service
     ports:
       - "8080:8080"
     command:

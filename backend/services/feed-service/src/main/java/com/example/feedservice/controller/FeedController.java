@@ -16,4 +16,9 @@ public class FeedController {
     public void receiveMessage(CustomMessageDTO customMessageDTO) {
         System.out.println(customMessageDTO);
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "deployed";
+    }
 }
