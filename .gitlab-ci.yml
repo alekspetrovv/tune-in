@@ -14,26 +14,26 @@ cache:
     - .m2/repository
     - target
 
-build:
-  stage: build
-  script:
-    - cd backend
-    - mvn clean install
+# build:
+#   stage: build
+#   script:
+#     - cd backend
+#     - mvn clean install
 
-test:
-  stage: test
-  script:
-    - cd backend
-    - mvn test
+# test:
+#   stage: test
+#   script:
+#     - cd backend
+#     - mvn test
 
 end-to-end:
-  image: cypress/browsers:node16.5.0-chrome94-ff93
+  image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
   script:
     - cd frontend
     - npm install
     - npm start
-    - npm run cypress
+    - npx cypress run --browser firefox
 
 sonarqube:
   stage: sonarqube
