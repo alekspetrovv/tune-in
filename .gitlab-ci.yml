@@ -14,26 +14,32 @@ cache:
     - .m2/repository
     - target
 
-# build:
-#   stage: build
-#   script:
-#     - cd backend
-#     - mvn clean install
+build:
+  stage: build
+  script:
+    - cd backend
+    - mvn clean install
 
-# test:
-#   stage: test
-#   script:
-#     - cd backend
-#     - mvn test
+frontend:
+  image: cypress/browsers:node12.14.1-chrome85-ff81
+  stage: build
+  script:
+    - cd frontend
+    - npm install
+    - npm start
+
+test:
+  stage: test
+  script:
+    - cd backend
+    - mvn test
 
 end-to-end:
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
   script:
     - cd frontend
-    - npm install
-    - npm start
-    - npx cypress run --browser firefox
+    - npm cypress run
 
 sonarqube:
   stage: sonarqube
@@ -43,8 +49,6 @@ sonarqube:
 
 deploy_local:
   stage: deploy
-  only:
-  - master
   script:
     - cd backend
     - mvn package
@@ -52,8 +56,6 @@ deploy_local:
 deploy_prod:
   stage: deploy
   image: google/cloud-sdk:alpine
-  only:
-  - master
   script:
   - echo $GCP_SA_KEY > gcloud-service-key.json
   - gcloud auth activate-service-account --key-file gcloud-service-key.json
