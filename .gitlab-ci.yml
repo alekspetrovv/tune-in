@@ -23,6 +23,8 @@ backend:
 frontend:
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: build
+  only:
+    - master
   script:
     - cd frontend
     - npm install
@@ -36,6 +38,8 @@ test:
 end-to-end:
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
+  only:
+    - master
   script:
     - cd frontend
      # install dependencies
@@ -45,12 +49,16 @@ end-to-end:
 
 sonarqube:
   stage: sonarqube
+  only:
+    - master
   script:
     - cd backend
     - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.projectKey=tune-in -Dsonar.qualitygate.wait=false
 
 deploy_local:
   stage: deploy
+  only:
+    - master
   script:
     - cd backend
     - mvn package
@@ -58,6 +66,8 @@ deploy_local:
 deploy_prod:
   stage: deploy
   image: google/cloud-sdk:alpine
+  only:
+    - master
   script:
   - echo $GCP_SA_KEY > gcloud-service-key.json
   - gcloud auth activate-service-account --key-file gcloud-service-key.json
