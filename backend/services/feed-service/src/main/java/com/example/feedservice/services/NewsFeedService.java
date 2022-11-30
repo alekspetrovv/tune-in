@@ -20,13 +20,14 @@ public class NewsFeedService {
         this.commentRepository = commentRepository;
     }
 
-    public void createComment(CommentDTO dto) {
+    public Comment createComment(CommentDTO dto) {
         Date date = new Date();
         Comment comment = Comment.builder()
                 .content(dto.getContent())
                 .createdDate(date)
                 .build();
         commentRepository.save(comment);
+        return comment;
     }
 
     public Comment updateComment(String id, CommentDTO dto) {
