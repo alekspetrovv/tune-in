@@ -9,8 +9,19 @@ spring:
   application:
     name: feed-service
   rabbitmq:
-    host: ${host_rabbit}
-
+    host: 172.20.0.3
+  data:
+    mongodb:
+      database: comments
+      port: 27017
+      username: test
+      password: pass
+      authentication-database: admin
+      auto-index-creation: true
+      host: localhost
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 management:
   endpoints:
     web:
