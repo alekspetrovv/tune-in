@@ -1,29 +1,47 @@
 package com.example.blogservice.controllers;
 
-
-import com.example.blogservice.configs.MQConfig;
-import com.example.blogservice.models.CustomMessageDTO;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import com.example.blogservice.models.Blog;
+import com.example.blogservice.models.BlogDTO;
+import com.example.blogservice.services.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/blogs")
+@RequestMapping("/blog")
 public class BlogsController {
 
-    private RabbitTemplate template;
+    private BlogService blogService;
 
     @Autowired
-    private BlogsController(RabbitTemplate template) {
-        this.template = template;
+    private BlogsController(BlogService blogService) {
+        this.blogService = blogService;
     }
 
-    @PostMapping("/test")
-    public String publishMessage(@RequestBody CustomMessageDTO message) {
-        message.setMessage(message.getMessage());
-        message.setMessageDate(message.getMessageDate());
-        template.convertAndSend(MQConfig.EXCHANGE, MQConfig.ROUTING, message);
-        return "";
+    @GetMapping(value = "/{id}")
+    public Blog getBlog(@PathVariable String id) {
+        return blogService.getById(id);
+    }
+
+    @GetMapping(value = "/all")
+    public List<Blog> getBlogs() {
+        return blogService.getAll();
+    }
+
+    @PostMapping(value = "/")
+    public void create(@RequestBody BlogDTO blogDTO) {
+        blogService.create(blogDTO);
+    }
+
+    @PutMapping(value = "/{id}")
+    public void update(@PathVariable String id, @RequestBody BlogDTO blogDTO) {
+        blogService.update(id, blogDTO);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public void delete(@PathVariable String id) {
+        blogService.delete(id);
     }
 
 
