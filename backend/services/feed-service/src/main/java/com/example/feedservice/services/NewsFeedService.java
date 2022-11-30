@@ -29,13 +29,14 @@ public class NewsFeedService {
         commentRepository.save(comment);
     }
 
-    public void updateComment(String id, CommentDTO dto) {
+    public Comment updateComment(String id, CommentDTO dto) {
         Optional<Comment> comment = commentRepository.findById(id);
         Comment updatedComment = comment.stream().findFirst().orElse(null);
         Date date = new Date();
         updatedComment.setContent(dto.getContent());
         updatedComment.setCreatedDate(date);
         commentRepository.save(updatedComment);
+        return updatedComment;
     }
 
     public List<Comment> getComments() {

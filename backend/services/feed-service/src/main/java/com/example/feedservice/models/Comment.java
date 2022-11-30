@@ -9,6 +9,8 @@ import java.util.Date;
 
 @Document("comments")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Comment {
