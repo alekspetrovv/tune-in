@@ -11,12 +11,11 @@ steps:
 #  - name: 'gcr.io/cloud-builders/docker'
 #    args: [ 'push', 'gcr.io/${PROJECT_ID}/app']
 
-    steps:
-      - name: 'docker/compose:1.19.0'
-        args: [ 'up', '-d' ]
-        dir: './backend'
-      - name: 'gcr.io/cloud-builders/docker'
-        args: [ 'tag', 'workspace_app:latest', 'gcr.io/$PROJECT_ID/test' ]
+  - name: 'docker/compose:1.19.0'
+    args: [ 'up', '-d' ]
+    dir: './backend'
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'tag', 'workspace_app:latest', 'gcr.io/$PROJECT_ID/test' ]
     images: [ 'gcr.io/$PROJECT_ID/test' ]
    
 #    # deploy the container image
