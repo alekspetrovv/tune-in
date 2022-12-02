@@ -7,18 +7,9 @@ steps:
    # build the container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'gcr.io/${PROJECT_ID}/app', './backend/services/feed-service' ]
-  - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '-t', 'gcr.io/${PROJECT_ID}/app', './backend/services/blog-service' ]
    # push the container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'push', 'gcr.io/${PROJECT_ID}/app']
-
-#   - name: 'docker/compose:1.19.0'
-#     args: [ 'up', '-d' ]
-#     dir: './backend'
-#   - name: 'gcr.io/cloud-builders/docker'
-#     args: ['tag', 'backend-feed-service:latest', 'gcr.io/$PROJECT_ID/app']
-# images: ['gcr.io/$PROJECT_ID/app']
   
    # deploy the container image
   - name: "gcr.io/cloud-builders/gcloud"
