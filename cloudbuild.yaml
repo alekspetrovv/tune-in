@@ -18,8 +18,8 @@ steps:
       'deploy',
       'app',
       '--image',
-      '--port', '8087',
       'gcr.io/$PROJECT_ID/app',
+      '--port', '8087',
       '--region', 'europe-west4',
       '--platform', 'managed',
       '--allow-unauthenticated']
