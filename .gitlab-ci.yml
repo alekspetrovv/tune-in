@@ -66,8 +66,6 @@ deploy_local:
 deploy_prod:
   stage: deploy
   image: google/cloud-sdk:alpine
-  only:
-    - master
   script:
   - echo $GCP_SA_KEY > gcloud-service-key.json
   - gcloud auth activate-service-account --key-file gcloud-service-key.json
