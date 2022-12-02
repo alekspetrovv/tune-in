@@ -14,11 +14,11 @@ cache:
     - .m2/repository
     - target
 
-backend:
-  stage: build
-  script:
-    - cd backend
-    - mvn clean install
+# backend:
+#   stage: build
+#   script:
+#     - cd backend
+#     - mvn clean install
 
 frontend:
   image: cypress/browsers:node12.14.1-chrome85-ff81
@@ -29,11 +29,11 @@ frontend:
     - cd frontend
     - npm install
 
-test:
-  stage: test
-  script:
-    - cd backend
-    - mvn test
+# test:
+#   stage: test
+#   script:
+#     - cd backend
+#     - mvn test
 
 end-to-end:
   image: cypress/browsers:node12.14.1-chrome85-ff81
