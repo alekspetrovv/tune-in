@@ -63,11 +63,11 @@ services:
 
 
   feed-service:
-    image: alekspetrovv/feed-service
     build: services/feed-service
     restart: always
     environment:
       host_rabbit: rabbitmq
+      host_db: mongodb
     ports:
-      - "8086:8086"
+      - "8087:8087"
 
