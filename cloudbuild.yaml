@@ -18,6 +18,7 @@ steps:
       'deploy',
       'app',
       '--image',
+      '--port', '8087',
       'gcr.io/$PROJECT_ID/app',
       '--region', 'europe-west4',
       '--platform', 'managed',
