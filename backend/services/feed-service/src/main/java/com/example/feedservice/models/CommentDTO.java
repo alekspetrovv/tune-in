@@ -10,6 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentDTO {
+    private String title;
     private String content;
     private Date createdDate;
 

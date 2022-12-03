@@ -16,6 +16,8 @@ import java.util.Date;
 public class Comment {
     @Id
     private String id;
+
+    private String title;
     private String content;
     private Date createdDate;
 }

@@ -23,6 +23,7 @@ public class NewsFeedService {
     public Comment createComment(CommentDTO dto) {
         Date date = new Date();
         Comment comment = Comment.builder()
+                .title(dto.getTitle())
                 .content(dto.getContent())
                 .createdDate(date)
                 .build();
@@ -34,6 +35,7 @@ public class NewsFeedService {
         Optional<Comment> comment = commentRepository.findById(id);
         Comment updatedComment = comment.stream().findFirst().orElse(null);
         Date date = new Date();
+        updatedComment.setTitle(dto.getTitle());
         updatedComment.setContent(dto.getContent());
         updatedComment.setCreatedDate(date);
         commentRepository.save(updatedComment);
