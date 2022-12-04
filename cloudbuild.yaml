@@ -36,6 +36,7 @@ steps:
       'deploy', 
       'web', 
       '--image', 
+      '--port', '3000',
       'gcr.io/$PROJECT_ID/web', 
       '--region', 'us-central1', 
       '--platform', 'managed', 
