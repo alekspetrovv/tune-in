@@ -37,7 +37,7 @@ steps:
       'app',
       '--image',
       'gcr.io/$PROJECT_ID/app',
-      '--port', '3000',
+      '--port', '80',
       '--region', 'europe-west4',
       '--platform', 'managed',
       '--allow-unauthenticated']
