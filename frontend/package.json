@@ -7,10 +7,11 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "bootstrap": "^4.5.0",
+    "http-proxy-middleware": "^2.0.6",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -18,7 +19,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://172.25.0.3:8087/",
   "eslintConfig": {
     "extends": "react-app"
   },

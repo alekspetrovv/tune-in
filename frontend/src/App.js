@@ -2,75 +2,83 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { Header } from './components/Header'
-import { Blogs } from './components/Users'
+import { Blogs } from './components/Blogs'
 import { DisplayBoard } from './components/DisplayBoard'
-import CreateUser from './components/CreateUser'
-import { getAllUsers, createUser } from './services/UserService'
+import CreateBlog from './components/CreateBlog'
+import { getAllBlogs, createBlog, getTest} from './services/BlogService'
 
 class App extends Component {
 
   state = {
-    // user: {},
+    text: "",
+    blog: {},
     blogs: [],
     numberOfBlogs: 0
   }
 
-  // createUser = (e) => {
-  //     createUser(this.state.user)
-  //       .then(response => {
-  //         console.log(response);
-  //         this.setState({numberOfUsers: this.state.numberOfUsers + 1})
-  //     });
-  //     this.setState({user: {}})
-  // }
+  CreateBlog = (e) => {
+    createBlog(this.state.blog)
+      .then(() => {
+        this.setState({ numberOfBlogs: this.state.numberOfBlogs + 1 })
+      });
+    this.setState({ blog: {} })
+  }
+  GetTest = (e) => {
+    getTest(e)
+        .then(response => {
+          console.log("text is: " + response)
+          this.setState({ text: response})
+        });
+  }
 
   getAllBlogs = () => {
-    getAllUsers()
+    getAllBlogs()
       .then(blogs => {
         console.log(blogs)
-        this.setState({blogs: blogs, numberOfBlogs: blogs.length})
+        this.setState({ blogs: blogs, numberOfBlogs: blogs.length })
       });
   }
 
-  // onChangeForm = (e) => {
-  //     let user = this.state.user
-  //     if (e.target.name === 'firstname') {
-  //         user.firstName = e.target.value;
-  //     } else if (e.target.name === 'lastname') {
-  //         user.lastName = e.target.value;
-  //     } else if (e.target.name === 'email') {
-  //         user.email = e.target.value;
-  //     }
-  //     this.setState({user})
-  // }
+  onChangeForm = (e) => {
+    let blog = this.state.blog
+    if (e.target.name === 'title') {
+      blog.title = e.target.value;
+    }
+    if (e.target.name === 'content') {
+      blog.content = e.target.value;
+    }
+    this.setState({ blog })
+  }
 
   render() {
-    
     return (
       <div className="App">
         <Header></Header>
         <div className="container mrgnbtm">
           <div className="row">
             <div className="col-md-8">
-                {/* <CreateUser 
-                  user={this.state.user}
-                  onChangeForm={this.onChangeForm}
-                  createUser={this.createUser}
-                  >
-                </CreateUser> */}
+              <CreateBlog
+                blog={this.state.blog}
+                onChangeForm={this.onChangeForm}
+                createBlog={this.CreateBlog}
+              >
+              </CreateBlog>
             </div>
             <div className="col-md-4">
-                <DisplayBoard
-                  numberOfBlogs={this.state.numberOfBlogs}
-                  getAllBlogs={this.getAllBlogs}
-                >
-                </DisplayBoard>
+              <DisplayBoard
+                numberOfBlogs={this.state.numberOfBlogs}
+                getAllBlogs={this.getAllBlogs}
+              >
+              </DisplayBoard>
             </div>
           </div>
         </div>
         <div className="row mrgnbtm">
           <Blogs blogs={this.state.blogs}></Blogs>
         </div>
+          <div className="btn">
+              <button type="button" onClick={(e) => this.GetTest(e)} className="btn btn-warning">Testing</button>
+          </div>
       </div>
     );
   }
