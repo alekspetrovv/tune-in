@@ -34,9 +34,9 @@ steps:
     args: [
       'run',
       'deploy',
-      'app',
+      'web',
       '--image',
-      'gcr.io/$PROJECT_ID/app',
+      'gcr.io/$PROJECT_ID/web',
       '--port', '80',
       '--region', 'europe-west4',
       '--platform', 'managed',
