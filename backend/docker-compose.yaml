@@ -1,26 +1,26 @@
 version: '3'
 services:
 
-  prometheus:
-    image: prom/prometheus:latest
-    network_mode: host
-    container_name: prometheus
-    restart: unless-stopped
-    volumes:
-      - ./data/prometheus/config:/etc/prometheus/
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-    ports:
-      - "9090:9090"
-
-  grafana:
-    image: grafana/grafana-oss:8.5.2
-    network_mode: host
-    container_name: grafana
-    restart: unless-stopped
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_SERVER_DOMAIN=localhost
+#  prometheus:
+#    image: prom/prometheus:latest
+#    network_mode: host
+#    container_name: prometheus
+#    restart: unless-stopped
+#    volumes:
+#      - ./data/prometheus/config:/etc/prometheus/
+#    command:
+#      - "--config.file=/etc/prometheus/prometheus.yml"
+#    ports:
+#      - "9090:9090"
+#
+#  grafana:
+#    image: grafana/grafana-oss:8.5.2
+#    network_mode: host
+#    container_name: grafana
+#    restart: unless-stopped
+#    environment:
+#      - GF_SECURITY_ADMIN_PASSWORD=admin
+#      - GF_SERVER_DOMAIN=localhost
 
   mysqldb:
     image: mysql:latest
@@ -32,21 +32,12 @@ services:
     ports:
       - "3307:3306"
 
-  mongodb:
-    image: mongo:latest
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
-    ports:
-      - 27017:27017
-
   rabbitmq:
     image: rabbitmq:3.8-management
     hostname: localhost
     restart: always
     ports:
       - "15672:15672"
-
 
   keycloak:
     build: services/authorization-service
@@ -62,12 +53,33 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
 
 
+  blog-service:
+    build: services/blog-service
+    restart: always
+    environment:
+      host_rabbit: rabbitmq
+    ports:
+      - "8085:8085"
+
+
   feed-service:
     build: services/feed-service
     restart: always
     environment:
       host_rabbit: rabbitmq
-      host_db: mongodb
     ports:
       - "8087:8087"
+
+  gateway-service:
+    build: services/gateway-service
+    restart: always
+    environment:
+      SPRING_CLOUD_GATEWAY_ROUTES_0_ID: feed
+      SPRING_CLOUD_GATEWAY_ROUTES_0_URI: http://feed-service:8087
+      SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES: Path=/feed/**
+      SPRING_CLOUD_GATEWAY_ROUTES_1_ID: blog
+      SPRING_CLOUD_GATEWAY_ROUTES_1_URI: http://blog-service:8087
+      SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES: Path=/blog/**
+    ports:
+      - "8070:8070"
 

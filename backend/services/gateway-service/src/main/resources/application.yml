@@ -6,38 +6,24 @@ application:
 server:
   port: 8070
 
-eureka:
-  instance:
-    prefer-ip-address: true
-    hostname: localhost
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8090/eureka
-
 spring:
   application:
     name: gateway-service
   cloud:
     gateway:
       routes:
-        - id: userService
-          uri: lb://user-service:8086
-          predicates:
-            - Path=/user/**
-          filters:
-            TokenRelay=
-        - id: feedService
-          uri: lb://feed-service:8086
-          predicates:
-            - Path=/feed/**
-          filters:
-            TokenRelay=
-        - id: blogService
-          uri: lb://blog-service:8085
+        - id: blog
+          uri: http://localhost:8085
           predicates:
             - Path=/blogs/**
-          filters:
-            TokenRelay=
+        - id: feed
+          uri: http://localhost:8087
+          predicates:
+            - Path=/feed/**
+#          filters:
+#            TokenRelay=
+#          filters:
+#            TokenRelay=
   main:
     web-application-type: reactive
   security:
