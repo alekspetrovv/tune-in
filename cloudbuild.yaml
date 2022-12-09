@@ -22,7 +22,7 @@ steps:
     args: [
       'run',
       'deploy',
-      'app',
+      'feed',
       '--image',
       'gcr.io/$PROJECT_ID/feed',
       '--port', '8087',
@@ -35,7 +35,7 @@ steps:
     args: [
       'run',
       'deploy',
-      'app',
+      'blog',
       '--image',
       'gcr.io/$PROJECT_ID/blog',
       '--port', '8085',
