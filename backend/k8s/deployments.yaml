@@ -15,7 +15,7 @@ spec:
       containers:
         - name: feed-container
           image: gcr.io/compact-window-369312/app
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8087
       restartPolicy: Always
