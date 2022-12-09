@@ -58,11 +58,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: keycloak
+      app: keycloak-pod
   template:
     metadata:
       labels:
-        app: keycloak
+        app: keycloak-pod
     spec:
       containers:
         - name: keycloak

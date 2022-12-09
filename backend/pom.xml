@@ -17,7 +17,7 @@
     <modules>
         <module>./services/feed-service</module>
         <module>./services/gateway-service</module>
-                <module>./services/blog-service</module>
+        <module>./services/blog-service</module>
     </modules>
 
     <properties>

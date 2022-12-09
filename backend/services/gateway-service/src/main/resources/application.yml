@@ -42,9 +42,6 @@ spring:
           my-provider:
             issuer-uri: http://localhost:8080/realms/my_realm
 
-
-
-
 # log the gateway
 logging:
   level:
