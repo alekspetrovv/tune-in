@@ -70,16 +70,3 @@ services:
     ports:
       - "8087:8087"
 
-  gateway-service:
-    build: services/gateway-service
-    restart: always
-    environment:
-      SPRING_CLOUD_GATEWAY_ROUTES_0_ID: feed
-      SPRING_CLOUD_GATEWAY_ROUTES_0_URI: http://feed-service:8087
-      SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES: Path=/feed/**
-      SPRING_CLOUD_GATEWAY_ROUTES_1_ID: blog
-      SPRING_CLOUD_GATEWAY_ROUTES_1_URI: http://blog-service:8087
-      SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES: Path=/blog/**
-    ports:
-      - "8070:8070"
-

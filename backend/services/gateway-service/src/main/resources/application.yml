@@ -12,18 +12,19 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: blog
-          uri: http://localhost:8085
+        - id: blog-service
+          uri: http://blog-service:8085
           predicates:
             - Path=/blogs/**
-        - id: feed
-          uri: http://localhost:8087
+          filters:
+            TokenRelay=
+        - id: feed-service
+          uri: http://feed-service:8087
           predicates:
             - Path=/feed/**
-#          filters:
-#            TokenRelay=
-#          filters:
-#            TokenRelay=
+          filters:
+            TokenRelay=
+
   main:
     web-application-type: reactive
   security:
