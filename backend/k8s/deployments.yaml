@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: feed-container
-          image: gcr.io/compact-window-369312/app
+          image: gcr.io/compact-window-369312/feed
           imagePullPolicy: Always
           ports:
             - containerPort: 8087
@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
         - name: blog-container
-          image: alekspetrovv/blog-service:latest
+          image: gcr.io/compact-window-369312/blog
           imagePullPolicy: Always
           ports:
             - containerPort: 8085
@@ -58,11 +58,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: keycloak
+      app: keycloak-pod
   template:
     metadata:
       labels:
-        app: keycloak
+        app: keycloak-pod
     spec:
       containers:
         - name: keycloak
