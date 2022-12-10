@@ -52,7 +52,6 @@ services:
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
 
-
   blog-service:
     build: services/blog-service
     restart: always
@@ -60,7 +59,6 @@ services:
       host_rabbit: rabbitmq
     ports:
       - "8085:8085"
-
 
   feed-service:
     build: services/feed-service
@@ -73,10 +71,5 @@ services:
   gateway-service:
     build: services/gateway-service
     restart: always
-    environment:
-      SPRING_CLOUD_GATEWAY_ROUTES_0_URI: http://feed-service:8087
-      SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES: Path=/feed/**
-      SPRING_CLOUD_GATEWAY_ROUTES_1_URI: http://blog-service:8085
-      SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES: Path=/blog/**
     ports:
       - "8070:8070"

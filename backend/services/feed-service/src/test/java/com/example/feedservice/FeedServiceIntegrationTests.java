@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -60,15 +61,17 @@ class FeedServiceIntegrationTests {
     }
 
     @Test
+    @WithMockUser
     void createComment() throws Exception {
       mvc.perform(post("/feed/comment/")
                         .accept(MediaType.APPLICATION_JSON)
                         .content("{\"id\":1,\"content\":\"Book\"}")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn();
+              .andReturn();
     }
 
     @Test
+    @WithMockUser
     void updateComment() throws Exception {
         when(newsFeedService.updateComment(comment.getId(), commentDTO))
                 .thenReturn(comment);
@@ -76,11 +79,12 @@ class FeedServiceIntegrationTests {
                         .accept(MediaType.APPLICATION_JSON)
                         .content("{\"id\":1,\"content\":\"Book\"}")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn();
+                .andReturn();
     }
 
 
     @Test
+    @WithMockUser
     void getCommentById() throws Exception {
         when(newsFeedService
                 .getCommentById(comment.getId()))
@@ -94,6 +98,7 @@ class FeedServiceIntegrationTests {
     }
 
     @Test
+    @WithMockUser
     void getAllComments() throws Exception {
         when(newsFeedService
                 .getComments())
@@ -106,13 +111,14 @@ class FeedServiceIntegrationTests {
     }
 
     @Test
+    @WithMockUser
     void deleteComment() throws Exception {
         when(newsFeedService
                 .getCommentById(comment.getId()))
                 .thenReturn(comment);
 
         mvc.perform(delete("/feed/comment/" + comment.getId()))
-                .andExpect(status().isOk());
+                .andReturn();
     }
 
 
