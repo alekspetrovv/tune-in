@@ -1,29 +1,28 @@
 steps:
-    # build backend jar packages to be used for the docker containers
+  # build backend
   - name: 'gcr.io/cloud-builders/mvn'
     entrypoint: mvn
     args: ['clean', 'install', '-Dmaven.test.skip=true']
     dir: './backend'
-  #  # build feed-service container image
+  # build feed-service container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'gcr.io/${PROJECT_ID}/feed', './backend/services/feed-service' ]
-   # build blog-service container image
+  # build blog-service container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'gcr.io/${PROJECT_ID}/blog', './backend/services/blog-service' ]
-   # build gateway-service container image
+  # build gateway-service container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'gcr.io/${PROJECT_ID}/gateway', './backend/services/gateway-service' ]
-  #  # push feed-service container image
+  # push feed-service container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'push', 'gcr.io/${PROJECT_ID}/feed']
-  #  # push blog-service container image
+  # push blog-service container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'push', 'gcr.io/${PROJECT_ID}/blog']
-  # push  gateway-service container image
+  # push gateway-service container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'push', 'gcr.io/${PROJECT_ID}/gateway']
-
-   # deploy feed container image
+  # deploy feed container image
   - name: "gcr.io/cloud-builders/gcloud"
     args: [
       'run',
@@ -35,8 +34,7 @@ steps:
       '--region', 'europe-west4',
       '--platform', 'managed',
       '--allow-unauthenticated']
-
-    # deploy blog container image
+  # deploy blog container image
   - name: "gcr.io/cloud-builders/gcloud"
     args: [
       'run',
@@ -48,8 +46,7 @@ steps:
       '--region', 'europe-west4',
       '--platform', 'managed',
       '--allow-unauthenticated']
-
-      # deploy blog container image
+  # deploy blog container image
   - name: "gcr.io/cloud-builders/gcloud"
     args: [
       'run',
