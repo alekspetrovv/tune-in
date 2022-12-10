@@ -15,7 +15,7 @@ spring:
         - id: blog-service
           uri: http://blog-service:8085
           predicates:
-            - Path=/blogs/**
+            - Path=/blog/**
           filters:
             TokenRelay=
         - id: feed-service
@@ -34,13 +34,13 @@ spring:
           gateway:
             provider: my-provider
             client-id: my_client
-            client-secret: LYOs7bkLQhyOZOBk4GWqOuePMlMAnrUV
+            client-secret: mjrsXgIz3Z30c6XfP5dokg8wVXzFCrR7
             authorization-grant-type: authorization_code
-            redirect-uri: "http://localhost:8070/login/oauth2/code/gateway"
+            redirect-uri: "http://gateway-service:8070/login/oauth2/code/gateway"
             scope: openid, blogs.read
         provider:
           my-provider:
-            issuer-uri: http://localhost:8080/realms/my_realm
+            issuer-uri: http://34.141.128.86:8080/realms/my_realm
 
 # log the gateway
 logging:

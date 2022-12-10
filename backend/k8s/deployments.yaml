@@ -47,6 +47,32 @@ spec:
   selector:
     matchLabels:
       app: blog-pod
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-deployment
+  labels:
+    app: gateway-deployment
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: gateway-pod
+      labels:
+        app: gateway-pod
+    spec:
+      containers:
+        - name: gateway-container
+          image: gcr.io/compact-window-369312/gateway
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8070
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: gateway-pod
 ---
 apiVersion: apps/v1
 kind: Deployment
