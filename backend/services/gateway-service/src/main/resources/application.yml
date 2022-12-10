@@ -13,13 +13,13 @@ spring:
     gateway:
       routes:
         - id: blog-service
-          uri: http://blog-service:8085
+          uri: http://localhost:8085
           predicates:
             - Path=/blog/**
           filters:
             TokenRelay=
         - id: feed-service
-          uri: http://feed-service:8087
+          uri: http://localhost:8087
           predicates:
             - Path=/feed/**
           filters:

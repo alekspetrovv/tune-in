@@ -44,5 +44,9 @@ public class BlogsController {
         blogService.delete(id);
     }
 
+    @GetMapping("/test")
+    public String test() {
+        return "deployed";
+    }
 
 }

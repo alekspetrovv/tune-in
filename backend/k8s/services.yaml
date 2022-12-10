@@ -6,7 +6,7 @@ spec:
   selector:
     app: feed-pod
   ports:
-    - port: 80
+    - port: 8087
       targetPort: 8087
   type: LoadBalancer
 
@@ -19,7 +19,7 @@ spec:
   selector:
     app: blog-pod
   ports:
-    - port: 80
+    - port: 8085
       targetPort: 8085
   type: LoadBalancer
 ---
@@ -44,7 +44,7 @@ spec:
   selector:
     app: gateway-pod
   ports:
-    - port: 80
+    - port: 8070
       targetPort: 8070
   type: LoadBalancer
 ---

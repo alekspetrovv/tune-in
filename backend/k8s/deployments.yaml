@@ -66,6 +66,15 @@ spec:
       containers:
         - name: gateway-container
           image: gcr.io/compact-window-369312/gateway
+          env:
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_0_URI
+              value: http://feed-service:8087
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES
+              value: Path=/feed/**
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_1_URI
+              value: http://blog-service:8085
+            - name: SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES
+              value: Path=/blog/**
           imagePullPolicy: Never
           ports:
             - containerPort: 8070
