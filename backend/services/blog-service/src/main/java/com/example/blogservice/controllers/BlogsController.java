@@ -1,8 +1,10 @@
 package com.example.blogservice.controllers;
 
+import com.example.blogservice.configs.MQConfig;
 import com.example.blogservice.models.Blog;
 import com.example.blogservice.models.BlogDTO;
 import com.example.blogservice.services.BlogService;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/blog")
 public class BlogsController {
+
 
     private BlogService blogService;
 
@@ -45,6 +48,7 @@ public class BlogsController {
     }
 
     @GetMapping("/test")
+    @RabbitListener(queues = MQConfig.QUEUE)
     public String test() {
         return "deployed";
     }

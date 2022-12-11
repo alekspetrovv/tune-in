@@ -1,6 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: amqp-deployment
+  labels:
+    app: amqp-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: rabbit-pod
+      labels:
+        app: rabbit-pod
+    spec:
+      containers:
+        - name: rabbit-container
+          image: rabbitmq:3.8-management
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 15672
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: rabbit-pod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: feed-deployment
   labels:
     app: feed-deployment
@@ -15,6 +40,9 @@ spec:
       containers:
         - name: feed-container
           image: gcr.io/compact-window-369312/feed
+          env:
+            - name: SPRING_RABBITMQ_HOST
+              value: amqp-service
           imagePullPolicy: Always
           ports:
             - containerPort: 8087
@@ -30,7 +58,7 @@ metadata:
   labels:
     app: blog-deployment
 spec:
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       name: blog-pod
@@ -40,6 +68,9 @@ spec:
       containers:
         - name: blog-container
           image: gcr.io/compact-window-369312/blog
+          env:
+            - name: SPRING_RABBITMQ_HOST
+              value: amqp-service
           imagePullPolicy: Always
           ports:
             - containerPort: 8085
@@ -91,7 +122,7 @@ spec:
         app: keycloak-pod
     spec:
       containers:
-        - name: keycloak
+        - name: keycloak-container
           image: quay.io/keycloak/keycloak:20.0.1
           args: ["start-dev"]
           env:

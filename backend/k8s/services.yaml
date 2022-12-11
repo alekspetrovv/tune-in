@@ -1,15 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: feed-service
+  name: amqp-service
 spec:
   selector:
-    app: feed-pod
+    app: rabbit-pod
   ports:
-    - port: 8087
-      targetPort: 8087
+    - port: 15672
+      targetPort: 15672
   type: LoadBalancer
-
 ---
 apiVersion: v1
 kind: Service
