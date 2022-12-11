@@ -6,8 +6,12 @@ spec:
   selector:
     app: rabbit-pod
   ports:
-    - port: 15672
+    - name: management
+      port: 15672
       targetPort: 15672
+    - name: query
+      port: 5672
+      targetPort: 5672
   type: LoadBalancer
 ---
 apiVersion: v1
