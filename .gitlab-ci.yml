@@ -14,7 +14,7 @@ cache:
     - .m2/repository
     - target
 
-backend:
+build:
   stage: build
   script:
     - cd backend
