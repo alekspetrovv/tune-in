@@ -136,7 +136,7 @@ class BlogServiceIntegrationTests {
 
     @Test
     @WithMockUser
-    void deleteComment() throws Exception {
+    void deleteBlog() throws Exception {
         when(blogService
                 .getById(blog.getId()))
                 .thenReturn(blog);
