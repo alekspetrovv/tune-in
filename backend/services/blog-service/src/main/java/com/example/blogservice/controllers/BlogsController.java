@@ -15,7 +15,7 @@ import java.util.List;
 public class BlogsController {
 
 
-    private BlogService blogService;
+    private final BlogService blogService;
 
     @Autowired
     private BlogsController(BlogService blogService) {

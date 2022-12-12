@@ -34,7 +34,7 @@ spring:
           gateway:
             provider: my-provider
             client-id: my_client
-            client-secret: mjrsXgIz3Z30c6XfP5dokg8wVXzFCrR7
+            client-secret: lZJKqIt3WYE1HQJUvOyxlWDAAt9XO9rO
             authorization-grant-type: authorization_code
             redirect-uri:  "{baseUrl}/login/oauth2/code/{registrationId}"
             scope: openid, blogs.read, feed.read

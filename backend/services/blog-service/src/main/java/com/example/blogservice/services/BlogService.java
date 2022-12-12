@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class BlogService {
 
-    private BlogRepository blogRepository;
+    private final BlogRepository blogRepository;
 
     @Autowired
     public BlogService(BlogRepository blogRepository) {

@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/feed")
 public class FeedController {
 
-    private NewsFeedService newsFeedService;
+    private final NewsFeedService newsFeedService;
 
     @Autowired
     public FeedController(NewsFeedService newsFeedService) {

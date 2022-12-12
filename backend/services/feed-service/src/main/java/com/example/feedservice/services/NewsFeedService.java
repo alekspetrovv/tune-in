@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class NewsFeedService {
 
-    private CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
 
     @Autowired
     public NewsFeedService(CommentRepository commentRepository) {
