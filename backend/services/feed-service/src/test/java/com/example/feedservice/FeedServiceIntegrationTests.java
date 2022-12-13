@@ -1,9 +1,9 @@
 package com.example.feedservice;
 
-import com.example.feedservice.controllers.FeedController;
+import com.example.feedservice.controllers.CommentController;
 import com.example.feedservice.models.Comment;
 import com.example.feedservice.models.CommentDTO;
-import com.example.feedservice.services.NewsFeedService;
+import com.example.feedservice.services.CommentService;
 
 import java.util.Date;
 import java.util.List;
@@ -23,17 +23,18 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(FeedController.class)
+@WebMvcTest(CommentController.class)
 @AutoConfigureMockMvc
 @ContextConfiguration
 class FeedServiceIntegrationTests {
     @Autowired
     private MockMvc mvc;
     @MockBean
-    private NewsFeedService newsFeedService;
+    private CommentService newsFeedService;
     private Comment comment;
     private CommentDTO commentDTO;
     private Comment commentOne;
@@ -45,18 +46,18 @@ class FeedServiceIntegrationTests {
         date = new Date();
         comment = new Comment();
         comment.setId("1");
-        comment.setContent("cool blog, I like this game");
+        comment.setComment("cool blog, I like this game");
         comment.setCreatedDate(date);
         commentDTO = new CommentDTO();
-        commentDTO.setContent("cool blog, I like this game");
+        commentDTO.setComment("cool blog, I like this game");
         commentDTO.setCreatedDate(date);
         commentOne = new Comment();
         commentOne.setId("2");
-        commentOne.setContent("cool blog, I like this game, where can i buy it?");
+        commentOne.setComment("cool blog, I like this game, where can i buy it?");
         commentOne.setCreatedDate(date);
         commentTwo = new Comment();
         commentTwo.setId("3");
-        commentTwo.setContent("cool blog, I like this game, where can i buy it, nice nice?");
+        commentTwo.setComment("cool blog, I like this game, where can i buy it, nice nice?");
         commentTwo.setCreatedDate(date);
     }
 
@@ -65,7 +66,7 @@ class FeedServiceIntegrationTests {
     void createComment() throws Exception {
       mvc.perform(post("/feed/comment/")
                         .accept(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":1,\"content\":\"Book\"}")
+                        .content("{\"id\":1,\"comment\":\"Cool blog man, interesting patch notes for Rocket League\"}")
                         .contentType(MediaType.APPLICATION_JSON))
               .andReturn();
     }
@@ -73,11 +74,11 @@ class FeedServiceIntegrationTests {
     @Test
     @WithMockUser
     void updateComment() throws Exception {
-        when(newsFeedService.updateComment(comment.getId(), commentDTO))
+        when(newsFeedService.update(comment.getId(), commentDTO))
                 .thenReturn(comment);
         mvc.perform(put("/feed/comment/" + comment.getId())
                         .accept(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":1,\"content\":\"Book\"}")
+                        .content("{\"id\":1,\"content\":\"Cool blog man, interesting patch notes for League\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
     }
@@ -87,13 +88,14 @@ class FeedServiceIntegrationTests {
     @WithMockUser
     void getCommentById() throws Exception {
         when(newsFeedService
-                .getCommentById(comment.getId()))
+                .get(comment.getId()))
                 .thenReturn(comment);
 
         mvc.perform(get("/feed/comment/" + comment.getId()))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
-                .andExpect(jsonPath("$.content").value("cool blog, I like this game"))
+                .andExpect(jsonPath("$.comment").value("cool blog, I like this game"))
                 .andReturn();
     }
 
@@ -101,7 +103,7 @@ class FeedServiceIntegrationTests {
     @WithMockUser
     void getAllComments() throws Exception {
         when(newsFeedService
-                .getComments())
+                .getAll())
                 .thenReturn(List.of(comment, commentOne, commentTwo));
 
         mvc.perform(get("/feed/comments"))
@@ -114,7 +116,7 @@ class FeedServiceIntegrationTests {
     @WithMockUser
     void deleteComment() throws Exception {
         when(newsFeedService
-                .getCommentById(comment.getId()))
+                .get(comment.getId()))
                 .thenReturn(comment);
 
         mvc.perform(delete("/feed/comment/" + comment.getId()))
