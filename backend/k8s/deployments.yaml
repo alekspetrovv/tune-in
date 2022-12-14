@@ -29,20 +29,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: feed-deployment
+  name: comment-deployment
   labels:
-    app: feed-deployment
+    app: comment-deployment
 spec:
   replicas: 3
   template:
     metadata:
-      name: feed-pod
+      name: comment-pod
       labels:
-        app: feed-pod
+        app: comment-pod
     spec:
       containers:
-        - name: feed-container
-          image: gcr.io/compact-window-369312/feed
+        - name: comment-container
+          image: gcr.io/compact-window-369312/comment
           env:
             - name: SPRING_RABBITMQ_HOST
               value: amqp-service
@@ -52,7 +52,7 @@ spec:
       restartPolicy: Always
   selector:
     matchLabels:
-      app: feed-pod
+      app: comment-pod
 ---
 apiVersion: apps/v1
 kind: Deployment
