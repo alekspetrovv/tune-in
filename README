@@ -1,0 +1,36 @@
+# Tune-In App
+
+## Endpoints
+
+### Gateway
+
+| URL            | redirect to       | Info                                        |
+| -------------- | ----------------- | ------------------------------------------- |
+| /blog/*        | Blog service      | Prefix for all blog-service requests        |
+| /comment/*     | Comment service   | Prefix for all comment-service requests     |
+
+### Blog Service
+
+#### Blog controller
+
+| URL                           | Funtion                        |  Type  |
+|-------------------------------|--------------------------------|:------:|
+| /                             | Create blog                    |  POST  |
+| /{id}                         | Update blog                    |  PUT   |
+| /all                          | Get all blogs                  |  GET   |
+| /{id}                         | Delete blog                    | DELETE |
+| /delete/all                   | Delete all blogs               | DELETE |
+
+
+### Comment service
+
+#### Comment controller
+
+| URL                           | Funtion                        |  Type  |
+|-------------------------------|--------------------------------|:------:|
+| /                             | Create comment                 |  POST  |
+| /{id}                         | Update comment                 |  PUT   |
+| /all                          | Get all comments               |  GET   |
+| /{id}                         | Delete comment                 | DELETE |
+| /delete/all                   | Delete all comments            | DELETE |
+
