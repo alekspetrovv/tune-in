@@ -55,7 +55,7 @@ class FeedServiceUnitTests {
     void createComment() {
         Authentication context = SecurityContextHolder.getContext().getAuthentication();
         // create comment
-        when(commentService.save("1",  context,  commentDTO)).thenReturn(comment);
+        when(commentService.save(context,  commentDTO)).thenReturn(comment);
         // assert
         assertNotNull(comment);
         assertEquals(commentDTO.getComment(), comment.getComment());
@@ -74,7 +74,7 @@ class FeedServiceUnitTests {
     void getExistingCommentById() throws IllegalAccessException {
         Authentication context = SecurityContextHolder.getContext().getAuthentication();
         // create comment
-        when(commentService.save("1",  context,  commentDTO)).thenReturn(comment);
+        when(commentService.save(context, commentDTO)).thenReturn(comment);
         // get the expected comment
         Comment expectedComment = commentService.get(comment.getId());
         // assert
@@ -87,7 +87,7 @@ class FeedServiceUnitTests {
     void deleteCommentById() throws IllegalAccessException {
         Authentication context = SecurityContextHolder.getContext().getAuthentication();
         // create comment
-        when(commentService.save("1",  context,  commentDTO)).thenReturn(comment);
+        when(commentService.save( context,  commentDTO)).thenReturn(comment);
         // get the expected comment
         Comment expectedComment = commentService.get(comment.getId());
         // assert
@@ -100,7 +100,7 @@ class FeedServiceUnitTests {
     void getAllComments() {
         Authentication context = SecurityContextHolder.getContext().getAuthentication();
         // create comment
-        when(commentService.save("1",  context,  commentDTO)).thenReturn(comment);
+        when(commentService.save(context,  commentDTO)).thenReturn(comment);
         // get list of all comments
         comments = commentService.getAll();
         // assert to check comments

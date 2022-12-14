@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/feed")
+@RequestMapping("/comment")
 public class CommentController {
 
     private final CommentService commentService;
@@ -20,34 +20,35 @@ public class CommentController {
         this.commentService = newsFeedService;
     }
 
-    @GetMapping(value = "/comment/{id}")
-    public Comment getComment(@PathVariable String id) throws IllegalAccessException{
-        return commentService.get(id);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getComment(@PathVariable String id){
+        ResponseEntity<?> retrievedComment = commentService.getComment(id);
+        return retrievedComment;
     }
 
-    @GetMapping(value = "/comments")
+    @GetMapping(value = "/all")
     public List<Comment> getAllComments() {
         return commentService.getAll();
     }
 
-    @PostMapping(value = "/comment/{blogId}")
-    public ResponseEntity<?> submitComment(@PathVariable("blogId") String blogId, @RequestBody CommentDTO commentDTO) {
-        ResponseEntity<?> newComment = commentService.saveComment(blogId, commentDTO);
-        return newComment;
+    @PostMapping("/submit")
+    public ResponseEntity<?> submitComment(@RequestBody CommentDTO commentDTO) {
+        ResponseEntity<?> submittedComment = commentService.saveComment(commentDTO);
+        return submittedComment;
     }
 
-    @PutMapping(value = "/comment/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<?> updateSubmittedComment(@PathVariable("id") String id, @RequestBody CommentDTO commentDTO) {
-        ResponseEntity<?> updateComment = commentService.updateComment(id, commentDTO);
-        return updateComment;
+        ResponseEntity<?> updatedComment = commentService.updateComment(id, commentDTO);
+        return updatedComment;
     }
 
-    @DeleteMapping(value = "/comment/{id}")
+    @DeleteMapping(value = "/{id}")
     public void deleteComment(@PathVariable String id) throws IllegalAccessException {
         commentService.delete(id);
     }
 
-    @DeleteMapping(value = "/comments")
+    @DeleteMapping(value = "/all")
     public void deleteAllComments() {
         commentService.deleteAll();
     }

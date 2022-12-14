@@ -85,7 +85,7 @@ class BlogServiceUnitTests {
 
 
     @Test
-    void updateBlog() {
+    void updateBlog() throws IllegalAccessException {
         // create comment
         when(blogService.update("1", blogDTO)).thenReturn(blog);
         // assert
@@ -96,7 +96,7 @@ class BlogServiceUnitTests {
     }
 
     @Test
-    void getExistingBlogById() {
+    void getExistingBlogById() throws IllegalAccessException {
         // create comment
         when(blogService.create(blogDTO)).thenReturn(blog);
         // get the expected comment
@@ -108,7 +108,7 @@ class BlogServiceUnitTests {
     }
 
     @Test
-    void deleteCommentById() {
+    void deleteCommentById() throws IllegalAccessException {
         when(blogService.create(blogDTO)).thenReturn(blog);
         // get the expected comment
         Blog expectedBlog = blogService.getById(blog.getId());

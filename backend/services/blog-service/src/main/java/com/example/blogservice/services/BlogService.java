@@ -2,10 +2,13 @@ package com.example.blogservice.services;
 
 import com.example.blogservice.models.Blog;
 import com.example.blogservice.models.BlogDTO;
+import com.example.blogservice.models.CommentDTO;
 import com.example.blogservice.repositories.BlogRepository;
+import com.example.blogservice.repositories.CommentDTORepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +17,12 @@ import java.util.Optional;
 public class BlogService {
 
     private final BlogRepository blogRepository;
+    private final CommentDTORepository commentDTORepository;
+
 
     @Autowired
-    public BlogService(BlogRepository blogRepository) {
+    public BlogService(BlogRepository blogRepository, CommentDTORepository commentDTORepository) {
+        this.commentDTORepository = commentDTORepository;
         this.blogRepository = blogRepository;
     }
 
@@ -44,14 +50,39 @@ public class BlogService {
         return updatedBlog;
     }
 
+    public Blog saveBlogComments(CommentDTO dto) {
+        // set comment date
+        Date date = new Date();
+        dto.setCreatedDate(date);
+        // save comment
+        commentDTORepository.save(dto);
+        // get found blog
+        Blog foundBlog = getById(dto.getBlogId());
+        // assign comments to blog
+        List<CommentDTO> comments = commentDTORepository.findAll();
+        foundBlog.setCommentList(comments);
+        foundBlog.setComments(comments.size());
+        // update blog
+        blogRepository.save(foundBlog);
+        return foundBlog;
+    }
+
     public List<Blog> getAll() {
         return blogRepository.findAll();
     }
 
+    public void deleteAll() {
+        blogRepository.deleteAll();
+    }
+
+
     public Blog getById(String id) {
         Optional<Blog> blog = blogRepository.findById(id);
-        Blog existingBlog = blog.stream().findFirst().orElse(null);
-        return existingBlog;
+        if (blog.isPresent()) {
+            Blog foundBlog = blog.get();
+            return foundBlog;
+        }
+        return null;
     }
 
 

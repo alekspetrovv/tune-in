@@ -1,8 +1,11 @@
 package com.example.feedservice.services;
 
+import com.example.feedservice.configs.MQConfig;
 import com.example.feedservice.models.Comment;
 import com.example.feedservice.models.CommentDTO;
 import com.example.feedservice.repository.CommentRepository;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,26 +21,30 @@ import java.util.Optional;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, RabbitTemplate rabbitTemplate) {
         this.commentRepository = commentRepository;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
-    public Comment save(String blogId, Authentication context, CommentDTO dto) {
+    public Comment save(Authentication context, CommentDTO dto) {
         // get user id
         String userId = context.getName();
         // create comment for specific blog
         Date date = new Date();
-        Comment comment = Comment.builder().comment(dto.getComment()).createdDate(date).blogId(blogId).userId(userId).build();
+        Comment comment = Comment.builder().comment(dto.getComment()).createdDate(date).blogId(dto.getBlogId()).userId(userId).build();
+        // send comment to the queue
+        rabbitTemplate.convertAndSend(MQConfig.EXCHANGE, MQConfig.ROUTING, dto);
         commentRepository.save(comment);
         return comment;
     }
 
-    public Comment update(String id, CommentDTO dto) throws IllegalAccessException {
+    public Comment update(String id, CommentDTO commentDTO) throws IllegalAccessException {
         Comment updatedComment = get(id);
         Date date = new Date();
-        updatedComment.setComment(dto.getComment());
+        updatedComment.setComment(commentDTO.getComment());
         updatedComment.setCreatedDate(date);
         commentRepository.save(updatedComment);
         return updatedComment;
@@ -61,12 +68,12 @@ public class CommentService {
         commentRepository.delete(existingComment);
     }
 
-    public ResponseEntity<?> saveComment(String blogId, CommentDTO dto) {
+    public ResponseEntity<?> saveComment(CommentDTO commentDTO) {
         // get logged in user
         Authentication context = SecurityContextHolder.getContext().getAuthentication();
         try {
             // post comment for blog
-            Comment comment = save(blogId, context, dto);
+            Comment comment = save(context, commentDTO);
             return new ResponseEntity<>(comment, HttpStatus.OK);
         } catch (Exception e) {
             // throw exception
@@ -84,6 +91,18 @@ public class CommentService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<?> getComment(String commentId) {
+        try {
+            // post comment for blog
+            Comment comment = get(commentId);
+            return new ResponseEntity<>(comment, HttpStatus.OK);
+        } catch (Exception e) {
+            // throw exception
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
 
 
     public void deleteAll() {

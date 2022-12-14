@@ -64,7 +64,7 @@ class FeedServiceIntegrationTests {
     @Test
     @WithMockUser
     void createComment() throws Exception {
-      mvc.perform(post("/feed/comment/")
+      mvc.perform(post("/comment/submit")
                         .accept(MediaType.APPLICATION_JSON)
                         .content("{\"id\":1,\"comment\":\"Cool blog man, interesting patch notes for Rocket League\"}")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -76,7 +76,7 @@ class FeedServiceIntegrationTests {
     void updateComment() throws Exception {
         when(newsFeedService.update(comment.getId(), commentDTO))
                 .thenReturn(comment);
-        mvc.perform(put("/feed/comment/" + comment.getId())
+        mvc.perform(put("/comment/" + comment.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .content("{\"id\":1,\"content\":\"Cool blog man, interesting patch notes for League\"}")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -91,7 +91,7 @@ class FeedServiceIntegrationTests {
                 .get(comment.getId()))
                 .thenReturn(comment);
 
-        mvc.perform(get("/feed/comment/" + comment.getId()))
+        mvc.perform(get("/comment/" + comment.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
@@ -106,7 +106,7 @@ class FeedServiceIntegrationTests {
                 .getAll())
                 .thenReturn(List.of(comment, commentOne, commentTwo));
 
-        mvc.perform(get("/feed/comments"))
+        mvc.perform(get("/comment/all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(3))
                 .andReturn();
@@ -119,7 +119,7 @@ class FeedServiceIntegrationTests {
                 .get(comment.getId()))
                 .thenReturn(comment);
 
-        mvc.perform(delete("/feed/comment/" + comment.getId()))
+        mvc.perform(delete("/comment/" + comment.getId()))
                 .andReturn();
     }
 

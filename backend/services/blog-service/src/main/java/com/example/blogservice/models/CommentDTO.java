@@ -1,4 +1,4 @@
-package com.example.feedservice.models;
+package com.example.blogservice.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,5 +13,4 @@ public class CommentDTO {
     private String comment;
     private String blogId;
     private Date createdDate;
-
 }
