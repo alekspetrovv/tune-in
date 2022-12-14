@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
     <!-- modules -->
     <modules>
-        <module>./services/feed-service</module>
+        <module>./services/comment-service</module>
         <module>./services/gateway-service</module>
         <module>./services/blog-service</module>
     </modules>

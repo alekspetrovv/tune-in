@@ -12,7 +12,7 @@ public class SecurityConfig {
         http.mvcMatcher("/**")
                 .authorizeRequests()
                 .mvcMatchers("/**")
-                .access("hasAuthority('SCOPE_feed.read')")
+                .access("hasAuthority('SCOPE_comments.read')")
                 .and()
                 .oauth2ResourceServer()
                 .jwt();

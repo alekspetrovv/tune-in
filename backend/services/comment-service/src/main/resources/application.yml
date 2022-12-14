@@ -22,5 +22,4 @@ management:
   endpoints:
     web:
       exposure:
-        include:
-          - prometheus
+        include: '*'
