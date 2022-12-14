@@ -1,10 +1,9 @@
-package com.example.feedservice.services;
+package com.example.commentservice.services;
 
-import com.example.feedservice.configs.MQConfig;
-import com.example.feedservice.models.Comment;
-import com.example.feedservice.models.CommentDTO;
-import com.example.feedservice.repository.CommentRepository;
-import org.springframework.amqp.core.AmqpTemplate;
+import com.example.commentservice.configs.MQConfig;
+import com.example.commentservice.models.Comment;
+import com.example.commentservice.models.CommentDTO;
+import com.example.commentservice.repository.CommentRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

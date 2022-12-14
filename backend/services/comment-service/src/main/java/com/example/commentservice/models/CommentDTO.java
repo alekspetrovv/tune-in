@@ -1,4 +1,4 @@
-package com.example.feedservice.models;
+package com.example.commentservice.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,8 +1,8 @@
-package com.example.feedservice;
+package com.example.commentservice;
 
-import com.example.feedservice.models.Comment;
-import com.example.feedservice.models.CommentDTO;
-import com.example.feedservice.services.CommentService;
+import com.example.commentservice.models.Comment;
+import com.example.commentservice.models.CommentDTO;
+import com.example.commentservice.services.CommentService;
 
 import java.util.Date;
 import java.util.List;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-class FeedServiceUnitTests {
+class CommentServiceUnitTests {
     @MockBean
     private CommentService commentService;
     private Comment comment;

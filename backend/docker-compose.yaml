@@ -60,8 +60,8 @@ services:
     ports:
       - "8085:8085"
 
-  feed-service:
-    build: services/feed-service
+  comment-service:
+    build: services/comment-service
     restart: always
     environment:
       host_rabbit: rabbitmq

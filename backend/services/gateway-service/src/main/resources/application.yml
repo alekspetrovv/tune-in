@@ -19,9 +19,9 @@ spring:
           filters:
             TokenRelay=
         - id: feed-service
-          uri: http://feed-service:8087
+          uri: http://comment-service:8087
           predicates:
-            - Path=/feed/**
+            - Path=/comment/**
           filters:
             TokenRelay=
 

@@ -9,11 +9,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>feed-service</artifactId>
+	<artifactId>comment-service</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0</version>
-	<name>feed-service</name>
-	<description>feed-service</description>
+	<name>comment-service</name>
+	<description>comment-service</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -93,7 +93,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>2.6.5</version>
 				<configuration>
-					<mainClass>com.example.feedservice.FeedServiceApplication</mainClass>
+					<mainClass>com.example.commentservice.CommentServiceApplication</mainClass>
 					<layers>
 						<enabled>true</enabled>
 					</layers>

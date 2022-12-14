@@ -1,6 +1,6 @@
-package com.example.feedservice.repository;
+package com.example.commentservice.repository;
 
-import com.example.feedservice.models.Comment;
+import com.example.commentservice.models.Comment;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

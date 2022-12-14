@@ -1,12 +1,12 @@
 application:
-  title: Feed Service
+  title: Comment Service
   version: 1.0
 
 server:
   port: 8087
 spring:
   application:
-    name: feed-service
+    name: comment-service
   rabbitmq:
     host: ${host_rabbit}
   data:

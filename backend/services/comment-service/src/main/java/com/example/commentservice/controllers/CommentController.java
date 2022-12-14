@@ -1,8 +1,8 @@
-package com.example.feedservice.controllers;
+package com.example.commentservice.controllers;
 
-import com.example.feedservice.services.CommentService;
-import com.example.feedservice.models.Comment;
-import com.example.feedservice.models.CommentDTO;
+import com.example.commentservice.services.CommentService;
+import com.example.commentservice.models.Comment;
+import com.example.commentservice.models.CommentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

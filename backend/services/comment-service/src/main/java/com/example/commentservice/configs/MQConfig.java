@@ -1,4 +1,4 @@
-package com.example.feedservice.configs;
+package com.example.commentservice.configs;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
