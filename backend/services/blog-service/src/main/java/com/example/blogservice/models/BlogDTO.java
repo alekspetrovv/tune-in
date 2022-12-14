@@ -14,5 +14,4 @@ public class BlogDTO {
     private String body;
     private Date createdDate;
     private Date updatedDate;
-    private Integer comments;
 }

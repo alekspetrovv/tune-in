@@ -26,14 +26,10 @@ class CommentServiceUnitTests {
     private CommentService commentService;
     private Comment comment;
     private CommentDTO commentDTO;
-    private Comment commentOne;
-    private Comment commentTwo;
-    private List<Comment> comments;
-    private Date date;
 
     @BeforeEach
     public void setup() {
-        date = new Date();
+        Date date = new Date();
         comment = new Comment();
         comment.setId("1");
         comment.setComment("cool blog, I like this game");
@@ -41,11 +37,11 @@ class CommentServiceUnitTests {
         commentDTO = new CommentDTO();
         commentDTO.setComment("cool blog, I like this game");
         commentDTO.setCreatedDate(date);
-        commentOne = new Comment();
+        Comment commentOne = new Comment();
         commentOne.setId("2");
         commentOne.setComment("cool blog, I like this game, where can i buy it?");
         commentOne.setCreatedDate(date);
-        commentTwo = new Comment();
+        Comment commentTwo = new Comment();
         commentTwo.setId("3");
         commentTwo.setComment("cool blog, I like this game, where can i buy it, nice nice?");
         commentTwo.setCreatedDate(date);
@@ -102,7 +98,7 @@ class CommentServiceUnitTests {
         // create comment
         when(commentService.save(context,  commentDTO)).thenReturn(comment);
         // get list of all comments
-        comments = commentService.getAll();
+        List<Comment> comments = commentService.getAll();
         // assert to check comments
         assertEquals(0, comments.size());
     }

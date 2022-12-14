@@ -7,8 +7,6 @@ import com.example.blogservice.models.CommentDTO;
 import com.example.blogservice.services.BlogService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,31 +26,31 @@ public class BlogsController {
 
 
     @RabbitListener(queues = MQConfig.QUEUE)
-    public void receiveComments(CommentDTO commentDTO) {
+    public void receiveComments(CommentDTO commentDTO) throws IllegalAccessException {
         blogService.saveBlogComments(commentDTO);
     }
 
-    @GetMapping(value = "/{id}")
-    public Blog getBlog(@PathVariable String id) {
+    @GetMapping("/{id}")
+    public Blog getBlog(@PathVariable String id) throws IllegalAccessException {
         return blogService.getById(id);
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping("/all")
     public List<Blog> getBlogs() {
         return blogService.getAll();
     }
 
-    @PostMapping(value = "/")
-    public void create(@RequestBody BlogDTO blogDTO) {
-        blogService.create(blogDTO);
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody BlogDTO blogDTO) {
+      return blogService.saveBlog(blogDTO);
     }
 
-    @PutMapping(value = "/{id}")
-    public void update(@PathVariable String id, @RequestBody BlogDTO blogDTO) throws IllegalAccessException {
-        blogService.update(id, blogDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody BlogDTO blogDTO) {
+       return blogService.updateBlog(id, blogDTO);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) throws IllegalAccessException {
         blogService.delete(id);
     }

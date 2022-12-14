@@ -22,8 +22,7 @@ public class CommentController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getComment(@PathVariable String id){
-        ResponseEntity<?> retrievedComment = commentService.getComment(id);
-        return retrievedComment;
+        return commentService.getComment(id);
     }
 
     @GetMapping(value = "/all")
@@ -33,14 +32,12 @@ public class CommentController {
 
     @PostMapping("/submit")
     public ResponseEntity<?> submitComment(@RequestBody CommentDTO commentDTO) {
-        ResponseEntity<?> submittedComment = commentService.saveComment(commentDTO);
-        return submittedComment;
+      return commentService.saveComment(commentDTO);
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> updateSubmittedComment(@PathVariable("id") String id, @RequestBody CommentDTO commentDTO) {
-        ResponseEntity<?> updatedComment = commentService.updateComment(id, commentDTO);
-        return updatedComment;
+       return commentService.updateComment(id, commentDTO);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -26,4 +26,6 @@ public class Blog {
     private Date updatedDate;
     private Integer comments;
     private List<CommentDTO> commentList;
+
+    private String userId;
 }

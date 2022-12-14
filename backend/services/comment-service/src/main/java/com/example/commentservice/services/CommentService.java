@@ -56,8 +56,7 @@ public class CommentService {
     public Comment get(String id) throws IllegalAccessException {
         Optional<Comment> comment = commentRepository.findById(id);
         if (comment.isPresent()) {
-            Comment existingComment = comment.get();
-            return existingComment;
+            return comment.get();
         }
         throw new IllegalAccessException("Comment not found");
     }
