@@ -33,7 +33,7 @@ metadata:
   labels:
     app: comment-deployment
 spec:
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       name: comment-pod
@@ -89,7 +89,7 @@ metadata:
   labels:
     app: gateway-deployment
 spec:
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       name: gateway-pod
@@ -114,7 +114,7 @@ metadata:
   labels:
     app: keycloak
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: keycloak-pod
@@ -147,7 +147,7 @@ kind: Deployment
 metadata:
   name: web
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: web-pod

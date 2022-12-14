@@ -13,7 +13,7 @@ spring:
       resource-server:
         jwt:
           # validated token by keycloak
-          issuer-uri: http://34.141.128.86:8080/realms/my_realm
+          issuer-uri: http://34.91.162.55:8080/realms/my_realm
   rabbitmq:
     host: ${host_rabbit}
   data:
