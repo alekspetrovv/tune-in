@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   prometheus:
     image: prom/prometheus:latest
     network_mode: host
@@ -31,9 +32,15 @@ services:
     ports:
       - "3307:3306"
 
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    hostname: localhost
+    restart: always
+    ports:
+      - "15672:15672"
 
   keycloak:
-    build: services/keycloak
+    build: services/authorization-service
     ports:
       - "8080:8080"
     command:
@@ -44,55 +51,25 @@ services:
       KC_HOSTNAME: ${KC_HOSTNAME}
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-    depends_on:
-      - mysqldb
 
-  discovery-service:
-    build: services/discovery-service
+  blog-service:
+    build: services/blog-service
+    restart: always
+    environment:
+      host_rabbit: rabbitmq
     ports:
-      - "8090:8090"
+      - "8085:8085"
+
+  comment-service:
+    build: services/comment-service
+    restart: always
+    environment:
+      host_rabbit: rabbitmq
+    ports:
+      - "8087:8087"
 
   gateway-service:
     build: services/gateway-service
     restart: always
     ports:
       - "8070:8070"
-    environment:
-      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-    depends_on:
-      - discovery-service
-      - keycloak
-
-
-  user-service:
-    build: services/user-service
-    restart: always
-    ports:
-      - "8086:8086"
-    environment:
-      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
-      spring_datasource_password: "root"
-    depends_on:
-      - mysqldb
-      - discovery-service
-
-  blog-service:
-    build: services/blog-service
-    restart: always
-    ports:
-      - "8085:8085"
-    environment:
-      eureka_client_service-url_defaultZone: http://discovery-service:8090/eureka/
-      spring_datasource_url: jdbc:mysql://mysqldb:3306/tune-in
-      spring_datasource_password: "root"
-    depends_on:
-      - mysqldb
-      - discovery-service
-
-
-
-
-
-
-

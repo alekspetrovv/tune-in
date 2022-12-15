@@ -6,32 +6,25 @@ application:
 server:
   port: 8070
 
-eureka:
-  instance:
-    prefer-ip-address: true
-    hostname: localhost
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8090/eureka
-
 spring:
   application:
     name: gateway-service
   cloud:
     gateway:
       routes:
-        - id: userService
-          uri: lb://user-service:8086
+        - id: blog-service
+          uri: http://blog-service:8085
           predicates:
-            - Path=/user/**
+            - Path=/blog/**
           filters:
             TokenRelay=
-        - id: blogService
-          uri: lb://blog-service:8085
+        - id: comment-service
+          uri: http://comment-service:8087
           predicates:
-            - Path=/blogs/**
+            - Path=/comment/**
           filters:
             TokenRelay=
+
   main:
     web-application-type: reactive
   security:
@@ -41,16 +34,13 @@ spring:
           gateway:
             provider: my-provider
             client-id: my_client
-            client-secret: v2b6eKLA0pSIvtZ9dvpKaGVf29ShJvHc
+            client-secret: 9AZhqA0KY8oBaPTj1vipKioAJEZeS821
             authorization-grant-type: authorization_code
-            redirect-uri: "http://localhost:8070/login/oauth2/code/gateway"
-            scope: openid, users.read, blogs.read
+            redirect-uri:  "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: openid, blogs.read, comments.read
         provider:
           my-provider:
-            issuer-uri: http://localhost:8080/realms/my_realm
-
-
-
+            issuer-uri: http://34.147.112.132:8080/realms/my_realm
 
 # log the gateway
 logging:
@@ -63,7 +53,6 @@ logging:
           route:
           RouteDefinitionLocator: INFO
     root: INFO
-
 
 management:
   health:

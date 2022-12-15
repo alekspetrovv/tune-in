@@ -1,0 +1,173 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: amqp-deployment
+  labels:
+    app: amqp-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: rabbit-pod
+      labels:
+        app: rabbit-pod
+    spec:
+      containers:
+        - name: rabbit-container
+          image: rabbitmq:3.8-management
+          imagePullPolicy: Always
+          ports:
+            - name: management
+              containerPort: 15672
+            - name: query
+              containerPort: 5672
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: rabbit-pod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comment-deployment
+  labels:
+    app: comment-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: comment-pod
+      labels:
+        app: comment-pod
+    spec:
+      containers:
+        - name: comment-container
+          image: gcr.io/compact-window-369312/comment
+          env:
+            - name: SPRING_RABBITMQ_HOST
+              value: amqp-service
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8087
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: comment-pod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-deployment
+  labels:
+    app: blog-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: blog-pod
+      labels:
+        app: blog-pod
+    spec:
+      containers:
+        - name: blog-container
+          image: gcr.io/compact-window-369312/blog
+          env:
+            - name: SPRING_RABBITMQ_HOST
+              value: amqp-service
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8085
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: blog-pod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-deployment
+  labels:
+    app: gateway-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: gateway-pod
+      labels:
+        app: gateway-pod
+    spec:
+      containers:
+        - name: gateway-container
+          image: gcr.io/compact-window-369312/gateway
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8070
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: gateway-pod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak-pod
+  template:
+    metadata:
+      labels:
+        app: keycloak-pod
+    spec:
+      containers:
+        - name: keycloak-container
+          image: quay.io/keycloak/keycloak:20.0.1
+          args: ["start-dev"]
+          env:
+            - name: KEYCLOAK_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: kc-secrets
+                  key: username
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kc-secrets
+                  key: password
+            - name: KC_PROXY
+              valueFrom:
+                configMapKeyRef:
+                  name: kc-config
+                  key: proxy
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /realms/master
+              port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-pod
+  template:
+    metadata:
+      labels:
+        app: web-pod
+    spec:
+      containers:
+        - name: web-container
+          image: gcr.io/compact-window-369312/web
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
