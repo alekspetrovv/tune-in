@@ -22,7 +22,7 @@ build:
   stage: build
   script:
     - cd backend
-    - mvn clean install
+    - mvn clean install -DskipTests=true
 
 frontend:
   image: cypress/browsers:node12.14.1-chrome85-ff81
