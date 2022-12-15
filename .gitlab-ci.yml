@@ -37,7 +37,7 @@ test:
   stage: test
   script:
     - cd backend
-    - mvn test
+    - mvn test -DskipTests=true
 
 end-to-end:
   image: cypress/browsers:node12.14.1-chrome85-ff81
