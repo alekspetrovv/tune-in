@@ -18,7 +18,7 @@ spring:
             - Path=/blog/**
           filters:
             TokenRelay=
-        - id: feed-service
+        - id: comment-service
           uri: http://comment-service:8087
           predicates:
             - Path=/comment/**
@@ -34,13 +34,13 @@ spring:
           gateway:
             provider: my-provider
             client-id: my_client
-            client-secret: 5Il5RjoIQ9LvvrmQIz9RTjU9uYntKszN
+            client-secret: 9AZhqA0KY8oBaPTj1vipKioAJEZeS821
             authorization-grant-type: authorization_code
             redirect-uri:  "{baseUrl}/login/oauth2/code/{registrationId}"
             scope: openid, blogs.read, comments.read
         provider:
           my-provider:
-            issuer-uri: http://34.91.162.55:8080/realms/my_realm
+            issuer-uri: http://34.147.112.132:8080/realms/my_realm
 
 # log the gateway
 logging:

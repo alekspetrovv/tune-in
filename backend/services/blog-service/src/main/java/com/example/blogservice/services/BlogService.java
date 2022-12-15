@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -61,13 +62,14 @@ public class BlogService {
     }
 
 
-    public Blog getById(String id) throws IllegalAccessException {
+    public Blog getById(String id)  {
         Optional<Blog> blog = blogRepository.findById(id);
-        if (blog.isPresent()) {
+//        if (blog.isPresent()) {
             Blog foundBlog = blog.get();
             return foundBlog;
-        }
-        throw new IllegalAccessException("Blog not found");
+//        }
+
+//        throw new IllegalAccessException("Blog not found");
     }
 
 
@@ -102,20 +104,28 @@ public class BlogService {
         }
     }
 
-    public Blog saveBlogComments(CommentDTO dto) throws IllegalAccessException {
-        // set comment date
+    public void saveBlogComments(CommentDTO dto) {
+        List<CommentDTO> comments = new ArrayList<>();
         Date date = new Date();
         dto.setCreatedDate(date);
-        // save comment
-        commentDTORepository.save(dto);
-        // get found blog
-        Blog foundBlog = getById(dto.getBlogId());
-        // assign comments to blog
-        List<CommentDTO> comments = commentDTORepository.findAll();
-        foundBlog.setCommentList(comments);
-        foundBlog.setComments(comments.size());
-        // update blog
-        blogRepository.save(foundBlog);
-        return foundBlog;
+        // loop through all the blogs
+        for (Blog blog : getAll()) {
+            System.out.println("comments: " + comments);
+            System.out.println("comments size: " + comments.size());
+            // check if blog id is equals the comment dto
+            if(blog.getId().equals(dto.getBlogId())){
+                comments.add(dto);
+//                blog.setCommentList(comments);
+              System.out.println("comments 1: " + blog.getCommentList());
+            System.out.println("comments size 1: " + blog.getCommentList().size());
+//                    blog.setCommentList();
+//                    System.out.println("in");
+//                }
+//                blog.getCommentList().add(dto);
+//                blog.setCommentList(comments);
+//                 update blog
+                blogRepository.save(blog);
+            }
+        }
     }
 }

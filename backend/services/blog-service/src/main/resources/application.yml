@@ -13,9 +13,9 @@ spring:
       resource-server:
         jwt:
           # validated token by keycloak
-          issuer-uri: http://34.91.162.55:8080/realms/my_realm
+          issuer-uri: http://34.147.112.132:8080/realms/my_realm
   rabbitmq:
-    host: ${host_rabbit}
+    host: 172.18.0.2
   data:
     mongodb:
       uri: mongodb+srv://admin:admin@cluster0.k5qf3w2.mongodb.net/?retryWrites=true&w=majority
