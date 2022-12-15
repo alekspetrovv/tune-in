@@ -92,8 +92,6 @@ dependency_scanning:
     reports:
       dependency_scanning: gl-dependency-scanning-report.json
   dependencies: []
-  rules:
-    - when: never
 
 # .ds-analyzer:
 #   extends: dependency_scanning
