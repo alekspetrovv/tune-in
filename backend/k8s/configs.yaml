@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kc-config
+data:
+  proxy: "edge"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kc-secrets
+data:
+  username: a2NfYWRtaW4=
+  password: a2NfcGFzcw==

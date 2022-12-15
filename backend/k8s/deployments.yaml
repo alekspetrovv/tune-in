@@ -129,11 +129,20 @@ spec:
           args: ["start-dev"]
           env:
             - name: KEYCLOAK_ADMIN
-              value: "admin"
+              valueFrom:
+                secretKeyRef:
+                  name: kc-secrets
+                  key: username
             - name: KEYCLOAK_ADMIN_PASSWORD
-              value: "admin"
+              valueFrom:
+                secretKeyRef:
+                  name: kc-secrets
+                  key: password
             - name: KC_PROXY
-              value: "edge"
+              valueFrom:
+                configMapKeyRef:
+                  name: kc-config
+                  key: proxy
           ports:
             - name: http
               containerPort: 8080
