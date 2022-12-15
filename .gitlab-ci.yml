@@ -49,8 +49,6 @@ end-to-end:
 
 sonarqube:
   stage: sonarqube
-  only:
-    - master
   script:
     - cd backend
     - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.projectKey=tune-in -Dsonar.qualitygate.wait=false
