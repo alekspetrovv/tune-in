@@ -9,6 +9,9 @@ stages:
   - sonarqube
   - deploy
 
+include:
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
+
 cache:
   paths:
     - .m2/repository
@@ -49,6 +52,8 @@ end-to-end:
 
 sonarqube:
   stage: sonarqube
+  only:
+  - master
   script:
     - cd backend
     - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.projectKey=tune-in -Dsonar.qualitygate.wait=false
@@ -64,6 +69,8 @@ deploy_local:
 deploy_prod:
   stage: deploy
   image: google/cloud-sdk:alpine
+  only:
+    - master
   script:
   - echo $GCP_SA_KEY > gcloud-service-key.json
   - gcloud auth activate-service-account --key-file gcloud-service-key.json
