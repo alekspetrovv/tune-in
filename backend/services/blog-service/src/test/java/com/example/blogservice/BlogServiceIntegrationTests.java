@@ -49,7 +49,6 @@ class BlogServiceIntegrationTests {
         blogDTO = new BlogDTO();
         blogDTO.setBody("cool blog, I like this game");
         blogDTO.setTitle("Apex Legends");
-        blogDTO.setComments(10);
         blogDTO.setCreatedDate(date);
         blogDTO.setUpdatedDate(date);
 

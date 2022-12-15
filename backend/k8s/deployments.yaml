@@ -29,20 +29,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: feed-deployment
+  name: comment-deployment
   labels:
-    app: feed-deployment
+    app: comment-deployment
 spec:
-  replicas: 3
+  replicas: 1
   template:
     metadata:
-      name: feed-pod
+      name: comment-pod
       labels:
-        app: feed-pod
+        app: comment-pod
     spec:
       containers:
-        - name: feed-container
-          image: gcr.io/compact-window-369312/feed
+        - name: comment-container
+          image: gcr.io/compact-window-369312/comment
           env:
             - name: SPRING_RABBITMQ_HOST
               value: amqp-service
@@ -52,7 +52,7 @@ spec:
       restartPolicy: Always
   selector:
     matchLabels:
-      app: feed-pod
+      app: comment-pod
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -89,7 +89,7 @@ metadata:
   labels:
     app: gateway-deployment
 spec:
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       name: gateway-pod
@@ -114,7 +114,7 @@ metadata:
   labels:
     app: keycloak
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: keycloak-pod
@@ -129,11 +129,20 @@ spec:
           args: ["start-dev"]
           env:
             - name: KEYCLOAK_ADMIN
-              value: "admin"
+              valueFrom:
+                secretKeyRef:
+                  name: kc-secrets
+                  key: username
             - name: KEYCLOAK_ADMIN_PASSWORD
-              value: "admin"
+              valueFrom:
+                secretKeyRef:
+                  name: kc-secrets
+                  key: password
             - name: KC_PROXY
-              value: "edge"
+              valueFrom:
+                configMapKeyRef:
+                  name: kc-config
+                  key: proxy
           ports:
             - name: http
               containerPort: 8080
@@ -147,7 +156,7 @@ kind: Deployment
 metadata:
   name: web
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: web-pod

@@ -1,31 +1,23 @@
-package com.example.blogservice.models;
+package com.example.commentservice.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.List;
 
-@Document("blogs")
+@Document("comments")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Blog {
+public class Comment {
     @Id
     private String id;
-    private String title;
-    private String body;
+    private String comment;
     private Date createdDate;
-    private Date updatedDate;
-    private Integer comments;
-    private List<CommentDTO> commentList;
-
+    private String blogId;
     private String userId;
 }

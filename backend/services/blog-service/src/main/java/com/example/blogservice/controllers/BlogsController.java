@@ -3,9 +3,11 @@ package com.example.blogservice.controllers;
 import com.example.blogservice.configs.MQConfig;
 import com.example.blogservice.models.Blog;
 import com.example.blogservice.models.BlogDTO;
+import com.example.blogservice.models.CommentDTO;
 import com.example.blogservice.services.BlogService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,35 +24,39 @@ public class BlogsController {
         this.blogService = blogService;
     }
 
-    @GetMapping(value = "/{id}")
-    public Blog getBlog(@PathVariable String id) {
+
+    @RabbitListener(queues = MQConfig.QUEUE)
+    public void receiveComments(CommentDTO commentDTO) throws IllegalAccessException {
+        blogService.saveBlogComments(commentDTO);
+    }
+
+    @GetMapping("/{id}")
+    public Blog getBlog(@PathVariable String id) throws IllegalAccessException {
         return blogService.getById(id);
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping("/all")
     public List<Blog> getBlogs() {
         return blogService.getAll();
     }
 
-    @PostMapping(value = "/")
-    public void create(@RequestBody BlogDTO blogDTO) {
-        blogService.create(blogDTO);
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody BlogDTO blogDTO) {
+      return blogService.saveBlog(blogDTO);
     }
 
-    @PutMapping(value = "/{id}")
-    public void update(@PathVariable String id, @RequestBody BlogDTO blogDTO) {
-        blogService.update(id, blogDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody BlogDTO blogDTO) {
+       return blogService.updateBlog(id, blogDTO);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable String id) {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) throws IllegalAccessException {
         blogService.delete(id);
     }
 
-    @GetMapping("/test")
-    @RabbitListener(queues = MQConfig.QUEUE)
-    public String test() {
-        return "deployed";
+    @DeleteMapping(value = "/all")
+    public void deleteAll() {
+        blogService.deleteAll();
     }
-
 }

@@ -1,6 +1,7 @@
 variables:
   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
+
 image: maven:latest
 
 stages:
@@ -8,6 +9,9 @@ stages:
   - test
   - sonarqube
   - deploy
+
+include:
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
 
 cache:
   paths:
@@ -18,7 +22,7 @@ build:
   stage: build
   script:
     - cd backend
-    - mvn clean install
+    - mvn clean install -DskipTests=true
 
 frontend:
   image: cypress/browsers:node12.14.1-chrome85-ff81
@@ -50,7 +54,7 @@ end-to-end:
 sonarqube:
   stage: sonarqube
   only:
-    - master
+  - master
   script:
     - cd backend
     - mvn clean package sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD -Dsonar.projectKey=tune-in -Dsonar.qualitygate.wait=false
@@ -73,5 +77,3 @@ deploy_prod:
   - gcloud auth activate-service-account --key-file gcloud-service-key.json
   - gcloud config set project $GCP_PROJECT_ID
   - gcloud builds submit . --config=cloudbuild.yaml
-
-
