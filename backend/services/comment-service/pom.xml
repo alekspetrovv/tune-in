@@ -76,7 +76,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>feed-service</finalName>
+		<finalName>comment-service</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

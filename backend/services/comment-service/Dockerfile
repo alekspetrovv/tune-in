@@ -1,7 +1,7 @@
 FROM adoptopenjdk:11-jre-hotspot as builder
-ARG JAR_FILE=target/feed-service.jar
-COPY ${JAR_FILE}  feed-service.jar
-RUN java -Djarmode=layertools -jar feed-service.jar extract
+ARG JAR_FILE=target/comment-service.jar
+COPY ${JAR_FILE}  comment-service.jar
+RUN java -Djarmode=layertools -jar comment-service.jar extract
 
 FROM adoptopenjdk:11-jre-hotspot
 
