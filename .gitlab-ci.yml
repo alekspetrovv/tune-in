@@ -31,11 +31,11 @@ frontend:
     - cd frontend
     - npm install
 
-test:
-  stage: test
-  script:
-    - cd backend
-    - mvn test
+# test:
+#   stage: test
+#   script:
+#     - cd backend
+#     - mvn test
 
 end-to-end:
   image: cypress/browsers:node12.14.1-chrome85-ff81
