@@ -49,6 +49,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8087
+          resources:
+            requests:
+              cpu: "200m"
       restartPolicy: Always
   selector:
     matchLabels:
