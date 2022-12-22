@@ -26,8 +26,8 @@ public class BlogsController {
 
 
     @RabbitListener(queues = MQConfig.QUEUE)
-    public void receiveComments(CommentDTO commentDTO) throws IllegalAccessException {
-        blogService.saveBlogComments(commentDTO);
+    public void receiveComments(CommentDTO commentDTO) {
+        blogService.assignComments(commentDTO);
     }
 
     @GetMapping("/{id}")

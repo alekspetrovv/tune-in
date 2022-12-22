@@ -4,7 +4,6 @@ import com.example.blogservice.models.Blog;
 import com.example.blogservice.models.BlogDTO;
 import com.example.blogservice.models.CommentDTO;
 import com.example.blogservice.repositories.BlogRepository;
-import com.example.blogservice.repositories.CommentDTORepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.xml.stream.events.Comment;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,12 +21,10 @@ import java.util.Optional;
 public class BlogService {
 
     private final BlogRepository blogRepository;
-    private final CommentDTORepository commentDTORepository;
 
 
     @Autowired
-    public BlogService(BlogRepository blogRepository, CommentDTORepository commentDTORepository) {
-        this.commentDTORepository = commentDTORepository;
+    public BlogService(BlogRepository blogRepository) {
         this.blogRepository = blogRepository;
     }
 
@@ -62,14 +60,10 @@ public class BlogService {
     }
 
 
-    public Blog getById(String id)  {
+    public Blog getById(String id) {
         Optional<Blog> blog = blogRepository.findById(id);
-//        if (blog.isPresent()) {
-            Blog foundBlog = blog.get();
-            return foundBlog;
-//        }
-
-//        throw new IllegalAccessException("Blog not found");
+        Blog foundBlog = blog.get();
+        return foundBlog;
     }
 
 
@@ -104,28 +98,25 @@ public class BlogService {
         }
     }
 
-    public void saveBlogComments(CommentDTO dto) {
+    public void assignComments(CommentDTO dto) {
+        // initialise comments list
         List<CommentDTO> comments = new ArrayList<>();
+        comments.add(dto);
         Date date = new Date();
         dto.setCreatedDate(date);
-        // loop through all the blogs
-        for (Blog blog : getAll()) {
-            System.out.println("comments: " + comments);
-            System.out.println("comments size: " + comments.size());
-            // check if blog id is equals the comment dto
-            if(blog.getId().equals(dto.getBlogId())){
-                comments.add(dto);
-//                blog.setCommentList(comments);
-              System.out.println("comments 1: " + blog.getCommentList());
-            System.out.println("comments size 1: " + blog.getCommentList().size());
-//                    blog.setCommentList();
-//                    System.out.println("in");
-//                }
-//                blog.getCommentList().add(dto);
-//                blog.setCommentList(comments);
-//                 update blog
-                blogRepository.save(blog);
-            }
+        // get blog by id
+        Blog blog = getById(dto.getBlogId());
+        // add comments to blog
+        if (blog.getCommentList() == null) {
+            // assign comment list
+            blog.setCommentList(comments);
+        } else {
+            // assign comments when list is not empty
+            blog.getCommentList().add(dto);
         }
+        // set comments count
+        blog.setComments(blog.getCommentList().size());
+        // update blog
+        blogRepository.save(blog);
     }
 }
