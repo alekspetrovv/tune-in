@@ -28,7 +28,7 @@
 
 | URL                           | Funtion                        |  Type  |
 |-------------------------------|--------------------------------|:------:|
-| /                             | Create comment                 |  POST  |
+| /submit                       | Create comment                 |  POST  |
 | /{id}                         | Update comment                 |  PUT   |
 | /all                          | Get all comments               |  GET   |
 | /{id}                         | Delete comment                 | DELETE |
