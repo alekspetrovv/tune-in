@@ -18,6 +18,8 @@ cache:
 
 build:
   stage: build
+  only:
+    - master
   script:
     - cd backend
     - mvn clean install -DskipTests=true
